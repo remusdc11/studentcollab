@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">StudentCollab</string>
+
+    <!-- Login Activity-->
+    <string name="login_activity_wrong_credentials">Invalid email address or password</string>
+    <string name="login_activity_prompt_email">Email</string>
+    <string name="login_activity_prompt_password">Password</string>
+    <string name="login_activity_action_login">Log In</string>
+    <string name="login_activity_invalid_email">Invalid email address</string>
+    <string name="login_activity_invalid_password">Invalid password</string>
+
+
+    <!-- Sign Up Activity-->
+    <string name="sign_up_activity_prompt_password_verification">Repeat your password</string>
+    <string name="sign_up_activity_action_sign_up">Sign Up</string>
+    <string name="sign_up_activity_password_verification_error">Passwords don\'t match</string>
+    <string name="sign_up_activity_email_exists">This email address is already used by an account.</string>
+    <string name="sign_up_activity_successful">Successfully created your account.</string>
+
+
+
+
+
+    <!-- Feed Activity-->
+    <string name="feed_activity_welcome">Welcome</string>
+
+</resources>

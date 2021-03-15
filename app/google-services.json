@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "521588109025",
+    "firebase_url": "https://studentcollab-9f17b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "studentcollab-9f17b",
+    "storage_bucket": "studentcollab-9f17b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521588109025:android:100b14d072d05e335351a0",
+        "android_client_info": {
+          "package_name": "com.studentcollab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521588109025-029d85jcoecdun9rdfm9idgbrts28iib.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.studentcollab",
+            "certificate_hash": "cd7f0a9b711c29c77f689cd8ee3c0d23c95e190b"
+          }
+        },
+        {
+          "client_id": "521588109025-qtl6k5mp218j1h1er6d0um29ugvv05ae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTq4GhxkG8J45xFPTD7j1qU4dZz6V0Gmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521588109025-qtl6k5mp218j1h1er6d0um29ugvv05ae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
