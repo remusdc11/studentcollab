@@ -2,6 +2,7 @@ package com.studentcollab.Activities;
 
 import androidx.annotation.NonNull;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +29,8 @@ import com.studentcollab.Globals.Methods;
 import com.studentcollab.R;
 import com.studentcollab.Models.User;
 
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -34,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validPassword = false;
     private LoadingDialog loadingDialog;
     private View rootLayout;
+    private final int signUpRequestCode = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,11 +130,13 @@ public class LoginActivity extends AppCompatActivity {
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                //Log.d("aaa", Objects.requireNonNull(task.getException().getMessage()));
                                 loadingDialog.dismissLoadingDialog();
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     Methods.setGlobalUser(user);
-                                    Intent intent = new Intent(context, FeedActivity.class);
+
+                                    Intent intent = new Intent(context, OnboardingActivity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
@@ -144,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, SignUpActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, signUpRequestCode);
             }
         });
     }
@@ -153,5 +160,21 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == signUpRequestCode) {
+            if(resultCode == Activity.RESULT_OK){
+                boolean result = data.getBooleanExtra("result", false);
+                if(result)
+                    Snackbar.make(rootLayout, R.string.sign_up_activity_successful, Snackbar.LENGTH_LONG).show();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+
+            }
+        }
+    }//onActivityResult
 
 }

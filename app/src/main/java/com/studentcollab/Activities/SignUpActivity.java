@@ -3,6 +3,7 @@ package com.studentcollab.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +15,22 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.Methods;
+import com.studentcollab.Globals.Variables;
 import com.studentcollab.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -32,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button signUpButton;
     private LoadingDialog loadingDialog;
     private View rootLayout;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         rootLayout = findViewById(R.id.root_layout);
         loadingDialog = new LoadingDialog(SignUpActivity.this);
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
@@ -144,17 +155,31 @@ public class SignUpActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 loadingDialog.dismissLoadingDialog();
-                                Log.d("xxx", task.getResult().toString());
+                                //Log.d("aaa", task.getResult().toString());
 
                                 if (task.isSuccessful()) {
-                                    //Snackbar.make(rootLayout, R.string.sign_up_activity_successful, Snackbar.LENGTH_LONG).show();
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Methods.setGlobalUser(user);
-                                    Intent intent = new Intent(context, FeedActivity.class);
-                                    startActivity(intent);
+                                    //FirebaseUser user = mAuth.getCurrentUser();
+                                    //Methods.setGlobalUser(user);
+                                    //Intent intent = new Intent(context, FeedActivity.class);
+                                    //startActivity(intent);
+
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("id", Variables.user.getUserId());
+                                    user.put("email", Variables.user.getUserEmail());
+
+                                    db.collection("users").add(user).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("aaa", "Error adding document", e);
+                                        }
+                                    });
+
+                                    Intent returnIntent = new Intent();
+                                    returnIntent.putExtra("result", true);
+                                    setResult(Activity.RESULT_OK, returnIntent);
                                     finish();
                                 } else {
-                                    //Snackbar.make(rootLayout, context.getResources().getString(R.string.sign_up_activity_email_exists), Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(rootLayout, context.getResources().getString(R.string.sign_up_activity_email_exists), Snackbar.LENGTH_LONG).show();
                                 }
                             }
                         });

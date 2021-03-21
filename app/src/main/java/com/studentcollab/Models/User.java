@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class User {
 
+    private String documentId;
     private String userId;
     private String displayName;
     private String emailAddress;
@@ -15,6 +16,14 @@ public class User {
     public User(String userId, String emailAddress) {
         this.userId = userId;
         this.emailAddress = emailAddress;
+    }
+
+    public String getDocumentId() {
+        return this.documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getFirstName() {
