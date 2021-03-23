@@ -10,7 +10,7 @@ public class User {
     private String emailAddress;
     private String firstName, lastName;
     private Date joinDate;
-    private String universityId;
+    private University university;
 
 
     public User(String userId, String emailAddress) {
@@ -50,12 +50,12 @@ public class User {
         this.joinDate = joinDate;
     }
 
-    public String getUniversityId() {
-        return universityId;
+    public University getUniversity() {
+        return university;
     }
 
-    public void setUniversityId(String universityId) {
-        this.universityId = universityId;
+    public void setUniversity(University university) {
+        this.university = university;
     }
 
     public String getUserId() {

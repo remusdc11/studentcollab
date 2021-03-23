@@ -1,9 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.OnboardingActivity">
+    tools:context=".Activities.OnboardingActivity"
+    android:background="@color/background">
+
+    <include
+        android:id="@+id/toolbar_next"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_width="match_parent"
+        layout="@layout/toolbar_next"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/activity_onboarding_description"
+        android:textSize="@dimen/activity_onboarding_description"
+        android:textAlignment="center"
+        android:textColor="@color/text_dark"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_next"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <EditText
+        android:id="@+id/edit_text_first_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/activity_onboarding_first_name_hint"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description" />
+
+    <EditText
+        android:id="@+id/edit_text_last_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="@dimen/login_edit_text_margin_top"
+        android:hint="@string/activity_onboarding_last_name_hint"
+        android:imeActionLabel="@string/login_activity_action_login"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_first_name" />
+
+
+    <TextView
+        android:id="@+id/university_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:textSize="17sp"
+        android:text="@string/activity_onboarding_university_hint"
+        android:layout_marginTop="@dimen/login_edit_text_margin_top"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_last_name"/>
+
+    <Spinner
+        android:id="@+id/spinner_university"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/university_label"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

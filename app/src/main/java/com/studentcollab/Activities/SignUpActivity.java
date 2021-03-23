@@ -26,7 +26,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.Methods;
-import com.studentcollab.Globals.Variables;
 import com.studentcollab.R;
 
 import java.util.HashMap;
@@ -149,35 +148,43 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Methods.hideSoftKeyboard(SignUpActivity.this);
-                loadingDialog.startLoadingDialog();
+                loadingDialog.start();
                 mAuth.createUserWithEmailAndPassword(usernameEditText.getText().toString(),  passwordEditText.getText().toString())
                         .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                loadingDialog.dismissLoadingDialog();
                                 //Log.d("aaa", task.getResult().toString());
 
                                 if (task.isSuccessful()) {
-                                    //FirebaseUser user = mAuth.getCurrentUser();
+                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                     //Methods.setGlobalUser(user);
                                     //Intent intent = new Intent(context, FeedActivity.class);
                                     //startActivity(intent);
 
-                                    Map<String, Object> user = new HashMap<>();
-                                    user.put("id", Variables.user.getUserId());
-                                    user.put("email", Variables.user.getUserEmail());
+                                    final Map<String, Object> user = new HashMap<>();
+                                    user.put("id", firebaseUser.getUid());
+                                    user.put("email", firebaseUser.getEmail());
+                                    user.put("initialized", false);
 
-                                    db.collection("users").add(user).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w("aaa", "Error adding document", e);
-                                        }
-                                    });
-
-                                    Intent returnIntent = new Intent();
-                                    returnIntent.putExtra("result", true);
-                                    setResult(Activity.RESULT_OK, returnIntent);
-                                    finish();
+                                    db.collection("users").add(user)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    loadingDialog.dismiss();
+                                                    //Log.d("aaa", user.toString());
+                                                    mAuth.signOut();
+                                                    Intent returnIntent = new Intent();
+                                                    returnIntent.putExtra("result", true);
+                                                    setResult(Activity.RESULT_OK, returnIntent);
+                                                    finish();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.d("aaa", "Error adding document", e);
+                                                }
+                                            });
                                 } else {
                                     Snackbar.make(rootLayout, context.getResources().getString(R.string.sign_up_activity_email_exists), Snackbar.LENGTH_LONG).show();
                                 }

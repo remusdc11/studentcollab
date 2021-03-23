@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,13 +22,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.studentcollab.Globals.Variables;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.Methods;
 import com.studentcollab.R;
-import com.studentcollab.Models.User;
 
-import java.util.Objects;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,11 +40,15 @@ public class LoginActivity extends AppCompatActivity {
     private LoadingDialog loadingDialog;
     private View rootLayout;
     private final int signUpRequestCode = 1;
+    private  FirebaseFirestore db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        db = FirebaseFirestore.getInstance();
+
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
@@ -125,20 +130,50 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Methods.hideSoftKeyboard(LoginActivity.this);
-                loadingDialog.startLoadingDialog();
+                loadingDialog.start();
                 mAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(),  passwordEditText.getText().toString())
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 //Log.d("aaa", Objects.requireNonNull(task.getException().getMessage()));
-                                loadingDialog.dismissLoadingDialog();
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     Methods.setGlobalUser(user);
 
-                                    Intent intent = new Intent(context, OnboardingActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    db.collection("users")
+                                            .whereEqualTo("id", Variables.user.getUserId())
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
+
+                                                        if(documents.size() > 0)
+                                                        {
+                                                            loadingDialog.dismiss();
+                                                            Variables.user.setDocumentId(documents.get(0).getId());
+                                                            if(documents.get(0).getBoolean("initialized") != true) {
+                                                                Log.d("aaa", Variables.user.getDocumentId());
+                                                                Intent intent = new Intent(context, OnboardingActivity.class);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            }
+                                                            else {
+                                                                Intent intent = new Intent(context, FeedActivity.class);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            }
+
+                                                        }
+                                                    } else {
+                                                        Log.d("aaa", "Error getting documents: ", task.getException());
+                                                    }
+                                                }
+                                            });
+
+
+
                                 } else {
                                     Snackbar.make(rootLayout, R.string.login_activity_wrong_credentials, Snackbar.LENGTH_LONG).show();
                                 }

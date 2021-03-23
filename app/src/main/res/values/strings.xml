@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">StudentCollab</string>
 
+    <!--Toolbars-->
+    <string name="toolbar_next_button_next">Next</string>
+
     <!-- Login Activity-->
     <string name="login_activity_wrong_credentials">Invalid email address or password</string>
     <string name="login_activity_prompt_email">Email</string>
@@ -16,6 +19,13 @@
     <string name="sign_up_activity_password_verification_error">Passwords don\'t match</string>
     <string name="sign_up_activity_email_exists">This email address is already used by an account.</string>
     <string name="sign_up_activity_successful">Successfully created your account.</string>
+
+
+    <!--Onboarding-->
+    <string name="activity_onboarding_description">Welcome to StudentCollab! \n Please tell us more about yourself:</string>
+    <string name="activity_onboarding_first_name_hint">First name</string>
+    <string name="activity_onboarding_last_name_hint">Last name</string>
+    <string name="activity_onboarding_university_hint">University</string>
 
 
     <!-- Feed Activity-->

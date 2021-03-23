@@ -23,11 +23,11 @@ public class LoadingDialog {
         loadingDialog.setCancelable(false);
     }
 
-    public void startLoadingDialog() {
+    public void start() {
         loadingDialog.show();
     }
 
-    public void dismissLoadingDialog() {
+    public void dismiss() {
         if(loadingDialog != null)
             loadingDialog.dismiss();
     }
