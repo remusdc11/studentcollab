@@ -12,6 +12,7 @@ public class User {
     private Date joinDate;
     private University university;
 
+    private Boolean initialized;
 
     public User(String userId, String emailAddress) {
         this.userId = userId;
@@ -72,5 +73,13 @@ public class User {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public Boolean getInitialized() {
+        return initialized;
+    }
+
+    public void setInitialized(Boolean initialized) {
+        this.initialized = initialized;
     }
 }

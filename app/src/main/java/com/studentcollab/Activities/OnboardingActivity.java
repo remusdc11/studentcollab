@@ -11,19 +11,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.studentcollab.Globals.CustomArrayAdapter;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Models.University;
 import com.studentcollab.R;
 
 import java.util.ArrayList;
 
-public class OnboardingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class OnboardingActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private LoadingDialog loadingDialog;
@@ -42,6 +44,8 @@ public class OnboardingActivity extends AppCompatActivity implements AdapterView
         final EditText firstNameEditText = findViewById(R.id.edit_text_first_name);
         final EditText lastNameEditText = findViewById(R.id.edit_text_last_name);
         final View nextButton = findViewById(R.id.toolbar_next_button_next);
+        final View backButton = findViewById(R.id.toolbar_next_button_back);
+        backButton.setVisibility(View.GONE);
         universitySpinner = findViewById(R.id.spinner_university);
         final Context context = this.getApplicationContext();
 
@@ -49,11 +53,8 @@ public class OnboardingActivity extends AppCompatActivity implements AdapterView
 
         loadingDialog = new LoadingDialog(OnboardingActivity.this);
 
-        ArrayAdapter spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, universitiesList);
-        universitySpinner.setAdapter(spinnerAdapter);
-        universitySpinner.setOnItemSelectedListener(this);
 
-
+        //Get Universities
         loadingDialog.start();
         db.collection("universities")
                 .get()
@@ -71,7 +72,27 @@ public class OnboardingActivity extends AppCompatActivity implements AdapterView
                     }
                 });
 
+        ArrayAdapter spinnerAdapter = new CustomArrayAdapter(context, universitiesList);
+        universitySpinner.setAdapter(spinnerAdapter);
 
+        universitySpinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent,
+                                               View view, int position, long id)
+                    {
+
+                        // It returns the clicked item.
+                        University clickedItem = (University)
+                                parent.getItemAtPosition(position);
+                        String name = clickedItem.getName();
+                        Toast.makeText(OnboardingActivity.this, name + " selected", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent)
+                    {
+                    }
+                });
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,15 +120,4 @@ public class OnboardingActivity extends AppCompatActivity implements AdapterView
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        this.selectedUniversity = this.universitiesList.get(position);
-        Log.d("spinner", this.selectedUniversity.getName());
-        this.universitySpinner.setSelection(position);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 }

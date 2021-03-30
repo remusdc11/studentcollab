@@ -24,10 +24,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.studentcollab.Globals.Variables;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.Methods;
+import com.studentcollab.Models.University;
 import com.studentcollab.R;
 
 import java.util.List;
@@ -62,15 +64,48 @@ public class LoginActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //Only for testing reasons
-        if(currentUser != null)
-            mAuth.signOut();
-        currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null)
+//            mAuth.signOut();
+//        currentUser = mAuth.getCurrentUser();
 
         if(currentUser != null){
             Methods.setGlobalUser(currentUser);
-            Intent intent = new Intent(context, FeedActivity.class);
-            startActivity(intent);
-            finish();
+
+            loadingDialog.start();
+            //get user details and check if acc is initialized
+            db.collection("users")
+                    .whereEqualTo("id", Variables.user.getUserId())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+
+                                if(documents.size() > 0)
+                                {
+                                    loadingDialog.dismiss();
+                                    Variables.user.setDocumentId(documents.get(0).getId());
+                                    if(documents.get(0).getBoolean("initialized") != true) {
+                                        Log.d("aaa", Variables.user.getDocumentId());
+                                        Variables.user.setInitialized(false);
+                                        Intent intent = new Intent(context, OnboardingActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else {
+                                        Variables.user.setInitialized(true);
+                                        Intent intent = new Intent(context, FeedActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+
+                                }
+                            } else {
+                                Log.d("aaa", "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
         }
 
         usernameEditText.addTextChangedListener(new TextWatcher() {
