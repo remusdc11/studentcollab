@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">StudentCollab</string>
 
+
+    <!--MessageDialog-->
+    <string name="message_dialog_ok">Ok</string>
+
     <!--Toolbars-->
     <string name="toolbar_next_button_next">Next</string>
 
@@ -26,6 +30,7 @@
     <string name="activity_onboarding_first_name_hint">First name</string>
     <string name="activity_onboarding_last_name_hint">Last name</string>
     <string name="activity_onboarding_university_hint">University</string>
+    <string name="activity_onboarding_invalid_data">Invalid data</string>
 
 
     <!-- Feed Activity-->

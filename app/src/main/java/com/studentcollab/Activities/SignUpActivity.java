@@ -162,7 +162,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     //startActivity(intent);
 
                                     final Map<String, Object> user = new HashMap<>();
-                                    user.put("id", firebaseUser.getUid());
+                                    user.put("userId", firebaseUser.getUid());
                                     user.put("email", firebaseUser.getEmail());
                                     user.put("initialized", false);
 

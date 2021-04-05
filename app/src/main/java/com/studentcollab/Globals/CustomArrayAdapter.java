@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.studentcollab.Models.University;
 import com.studentcollab.R;
@@ -41,9 +42,14 @@ public class CustomArrayAdapter extends ArrayAdapter<University> {
     private View initView(int position, View convertView,
                           ViewGroup parent)
     {
+        RecyclerView.ViewHolder holder;
+
         // It is used to set our custom view.
         if (convertView == null) {
+            //holder = new RecyclerView.ViewHolder();
+
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.custom_spinner, parent, false);
+
         }
 
         TextView textViewName = convertView.findViewById(R.id.university_name);

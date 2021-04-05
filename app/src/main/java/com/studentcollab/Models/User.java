@@ -6,11 +6,10 @@ public class User {
 
     private String documentId;
     private String userId;
-    private String displayName;
     private String emailAddress;
     private String firstName, lastName;
     private Date joinDate;
-    private University university;
+    private String universityDocumentId;
 
     private Boolean initialized;
 
@@ -51,12 +50,12 @@ public class User {
         this.joinDate = joinDate;
     }
 
-    public University getUniversity() {
-        return university;
+    public String getUniversityDocumentId() {
+        return universityDocumentId;
     }
 
-    public void setUniversity(University university) {
-        this.university = university;
+    public void setUniversityDocumentId(String universityDocumentId) {
+        this.universityDocumentId = universityDocumentId;
     }
 
     public String getUserId() {
@@ -65,14 +64,6 @@ public class User {
 
     public String getUserEmail() {
         return this.emailAddress;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
     }
 
     public Boolean getInitialized() {

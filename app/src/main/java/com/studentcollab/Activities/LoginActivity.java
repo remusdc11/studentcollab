@@ -74,17 +74,17 @@ public class LoginActivity extends AppCompatActivity {
             loadingDialog.start();
             //get user details and check if acc is initialized
             db.collection("users")
-                    .whereEqualTo("id", Variables.user.getUserId())
+                    .whereEqualTo("userId", Variables.user.getUserId())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            loadingDialog.dismiss();
                             if (task.isSuccessful()) {
                                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
 
                                 if(documents.size() > 0)
                                 {
-                                    loadingDialog.dismiss();
                                     Variables.user.setDocumentId(documents.get(0).getId());
                                     if(documents.get(0).getBoolean("initialized") != true) {
                                         Log.d("aaa", Variables.user.getDocumentId());
@@ -101,6 +101,8 @@ public class LoginActivity extends AppCompatActivity {
                                     }
 
                                 }
+                                Log.d("aaa", String.valueOf(documents.size()));
+
                             } else {
                                 Log.d("aaa", "Error getting documents: ", task.getException());
                             }
@@ -170,23 +172,25 @@ public class LoginActivity extends AppCompatActivity {
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                loadingDialog.dismiss();
                                 //Log.d("aaa", Objects.requireNonNull(task.getException().getMessage()));
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     Methods.setGlobalUser(user);
 
                                     db.collection("users")
-                                            .whereEqualTo("id", Variables.user.getUserId())
+                                            .whereEqualTo("userId", Variables.user.getUserId())
                                             .get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                                                     if (task.isSuccessful()) {
                                                         List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                                                        Log.d("documents length", String.valueOf(documents.size()));
 
                                                         if(documents.size() > 0)
                                                         {
-                                                            loadingDialog.dismiss();
                                                             Variables.user.setDocumentId(documents.get(0).getId());
                                                             if(documents.get(0).getBoolean("initialized") != true) {
                                                                 Log.d("aaa", Variables.user.getDocumentId());

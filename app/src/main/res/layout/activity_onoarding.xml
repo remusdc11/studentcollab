@@ -33,7 +33,6 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/activity_onboarding_first_name_hint"
-        android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,9 +46,6 @@
         android:layout_marginEnd="24dp"
         android:layout_marginTop="@dimen/login_edit_text_margin_top"
         android:hint="@string/activity_onboarding_last_name_hint"
-        android:imeActionLabel="@string/login_activity_action_login"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +71,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintTop_toBottomOf="@id/university_label"/>
+        app:layout_constraintTop_toBottomOf="@id/university_label"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
