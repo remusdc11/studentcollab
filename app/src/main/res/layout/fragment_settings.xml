@@ -1,0 +1,42 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background">
+
+<!--    android:background="?actionBarItemBackground"-->
+
+    <LinearLayout
+        android:id="@+id/layout_log_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingVertical="@dimen/settings_layout_padding"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/settings_image_view_size"
+            android:layout_height="@dimen/settings_image_view_size"
+            android:layout_gravity="center"
+            android:src="@drawable/log_out_black"
+            android:layout_margin="@dimen/settings_image_view_margin"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/settings_log_out"
+            android:textSize="@dimen/settings_text"
+            android:textColor="@color/text_dark"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/settings_text_view_margin"
+           />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

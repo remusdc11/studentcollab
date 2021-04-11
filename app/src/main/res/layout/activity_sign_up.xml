@@ -11,6 +11,7 @@
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -66,15 +67,17 @@
     <Button
         android:id="@+id/sign_up"
         android:minWidth="@dimen/login_buttons_min_width"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
         android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/text_light"
         android:text="@string/sign_up_activity_action_sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_verification"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintVertical_bias="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

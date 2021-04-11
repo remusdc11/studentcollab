@@ -2,6 +2,7 @@ package com.studentcollab.Globals;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.studentcollab.Activities.EmptyActivity;
 import com.studentcollab.Models.User;
 
 public class Methods {
@@ -88,5 +90,11 @@ public class Methods {
         if(firebaseUser != null) {
             Variables.user = new User(firebaseUser.getUid(), firebaseUser.getEmail());
         }
+    }
+
+    public static void killProcess(Context context){
+        Intent intent = new Intent(context, EmptyActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 }

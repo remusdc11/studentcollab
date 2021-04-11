@@ -4,12 +4,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/sc_primary_lr"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/sc_primary_lr"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.OnboardingActivity"></activity>
+        <activity android:name=".Activities.EmptyActivity"></activity>
+        <activity android:name=".Activities.OnboardingActivity" />
         <activity android:name=".Activities.FeedActivity" />
         <activity android:name=".Activities.SignUpActivity" />
         <activity
@@ -24,6 +25,5 @@
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
-
 
 </manifest>
