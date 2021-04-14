@@ -66,8 +66,9 @@ public class FeedActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.navigation_menu_add:
-                        selectedFragment = new HomeFragment();
-                        break;
+                        Intent addIntent = new Intent(FeedActivity.this, AddActivity.class);
+                        startActivity(addIntent);
+                        return true;
 
                     case R.id.navigation_menu_home:
                         selectedFragment = new HomeFragment();

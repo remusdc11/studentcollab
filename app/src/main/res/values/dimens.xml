@@ -27,8 +27,6 @@
     <!--Onboarding-->
     <dimen name="activity_onboarding_description">20sp</dimen>
 
-
-
     <!-- Settings -->
     <dimen name="settings_text">24sp</dimen>
     <dimen name="settings_button_text">24sp</dimen>
@@ -37,7 +35,11 @@
     <dimen name="settings_text_view_margin">10dp</dimen>
     <dimen name="settings_layout_padding">3dp</dimen>
 
-
+    <!-- Add Activity -->
+    <dimen name="add_field_width">350dp</dimen>
+    <dimen name="add_field_margin">20dp</dimen>
+    <dimen name="add_text_height">20sp</dimen>
+    <dimen name="add_description_height">18sp</dimen>
 
 
 </resources>

@@ -28,6 +28,7 @@ import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.University;
 import com.studentcollab.R;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,6 +106,7 @@ public class OnboardingActivity extends AppCompatActivity {
                     Variables.user.setLastName(lastNameEditText.getText().toString());
                     Variables.user.setUniversityDocumentId(selectedUniversity.getDocumentId());
                     Variables.user.setInitialized(true);
+                    Variables.user.setJoinDate(new Timestamp(System.currentTimeMillis()));
 
 
                     loadingDialog.start();

@@ -1,5 +1,6 @@
 package com.studentcollab.Models;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class User {
@@ -8,7 +9,7 @@ public class User {
     private String userId;
     private String emailAddress;
     private String firstName, lastName;
-    private Date joinDate;
+    private Timestamp joinDate;
     private String universityDocumentId;
 
     private Boolean initialized;
@@ -42,11 +43,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Date getJoinDate() {
+    public Timestamp getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(Date joinDate) {
+    public void setJoinDate(Timestamp  joinDate) {
         this.joinDate = joinDate;
     }
 
