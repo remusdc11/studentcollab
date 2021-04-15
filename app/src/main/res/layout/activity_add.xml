@@ -44,7 +44,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences"
                     android:textSize="@dimen/add_text_height"/>
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -73,20 +72,58 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/add_input_layout_project_tags"
+                android:id="@+id/add_input_layout_project_no_users"
                 android:layout_width="@dimen/add_field_width"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/add_field_margin"
-                android:hint="test"
-                app:layout_constraintTop_toBottomOf="@+id/add_input_layout_project_description"
+                android:hint="@string/add_project_no_users_hint"
+                app:layout_constraintTop_toBottomOf="@id/add_input_layout_project_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_height="wrap_content"
+                    android:id="@+id/add_edit_text_layout_project_no_users"
                     android:layout_width="match_parent"
-                    />
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned"
+                    android:textSize="@dimen/add_text_height"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/add_input_layout_project_start_date"
+                android:layout_width="@dimen/add_field_width"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/add_field_margin"
+                android:hint="@string/add_project_start_date_hint"
+                app:layout_constraintTop_toBottomOf="@id/add_input_layout_project_no_users"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/add_edit_text_layout_project_start_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:textSize="@dimen/add_text_height"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/add_input_layout_project_end_date"
+                android:layout_width="@dimen/add_field_width"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/add_field_margin"
+                android:hint="@string/add_project_end_date_hint"
+                app:layout_constraintTop_toBottomOf="@id/add_input_layout_project_start_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/add_edit_text_layout_project_end_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:textSize="@dimen/add_text_height"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
