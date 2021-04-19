@@ -19,7 +19,7 @@
     <color name="loadingDialogBackground">#747474</color>
 
 
-    <color name="toolbar_content">#3C3C3C</color>
+    <color name="toolbar_content">#fff</color>
     <color name="toolbar_background">#fff</color>
 
 </resources>

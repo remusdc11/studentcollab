@@ -36,10 +36,10 @@
     <dimen name="settings_layout_padding">3dp</dimen>
 
     <!-- Add Activity -->
-    <dimen name="add_field_width">350dp</dimen>
+    <dimen name="add_field_width">325dp</dimen>
     <dimen name="add_field_margin">20dp</dimen>
-    <dimen name="add_text_height">20sp</dimen>
-    <dimen name="add_description_height">18sp</dimen>
+    <dimen name="add_text_height">18sp</dimen>
+    <dimen name="add_description_height">16sp</dimen>
 
 
 </resources>
