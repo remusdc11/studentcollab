@@ -56,9 +56,14 @@
     <string name="add_select_start_date">Select project start date</string>
     <string name="add_select_end_date">Select project end date</string>
     <string name="add_end_date_error">The end date can\'t be earlier than the start date or the current date.</string>
-    <string name="add_start_date_error">The start date can\'t be earlier than today.</string>
-
-
+    <string name="add_start_date_error">The start date can\'t be earlier than today or later than the end date.</string>
+    <string name="add_button_text">Create project</string>
+    <string name="add_title_error">The project title field is mandatory and must have at least 3 characters.</string>
+    <string name="add_description_error">The project description field is mandatory and must have at least 10 characters.</string>
+    <string name="add_no_users_error">The number of team members field is mandatory and must be higher than 1.</string>
+    <string name="add_start_date_mandatory">The project start date field is mandatory.</string>
+    <string name="add_end_date_mandatory">The project end date field is mandatory.</string>
+    <string name="add_tags_error">The project must have at least one tag.</string>
 
 
 

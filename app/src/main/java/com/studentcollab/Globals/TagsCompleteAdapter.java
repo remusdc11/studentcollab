@@ -19,23 +19,26 @@ import com.studentcollab.Models.University;
 import java.util.ArrayList;
 
 public class TagsCompleteAdapter extends ArrayAdapter<String> implements Filterable {
-    private ArrayList<String> mData;
+    private ArrayList<String> tags;
+    private ArrayList<String> copy;
     private FirebaseFirestore db;
 
-    public TagsCompleteAdapter(Context context, int textViewResourceId) {
+    public TagsCompleteAdapter(Context context, int textViewResourceId, ArrayList<String> tags) {
         super(context, textViewResourceId);
-        mData = new ArrayList<String>();
-        this.db = FirebaseFirestore.getInstance();
+        //this.tags = tags;
+        this.copy = tags;
+        this.tags = tags;
+        //this.db = FirebaseFirestore.getInstance();
     }
 
     @Override
     public int getCount() {
-        return mData.size();
+        return tags.size();
     }
 
     @Override
     public String getItem(int index) {
-        return mData.get(index);
+        return tags.get(index);
     }
 
     @Override
@@ -43,36 +46,43 @@ public class TagsCompleteAdapter extends ArrayAdapter<String> implements Filtera
         Filter myFilter = new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults filterResults = new FilterResults();
+                final FilterResults filterResults = new FilterResults();
+                tags = new ArrayList<>(copy);
                 if(constraint != null) {
-                    // A class that queries a web API, parses the data and returns an ArrayList<Style>
+                    String stringConstraint = constraint.toString();
+                    for (int i = 0; i < tags.size(); i++) {
+                        if(!tags.get(i).contains(stringConstraint)) {
+                            tags.remove(i);
+                            i--;
+                        }
+                    }
 
-                   /* db.collection("tags").document(constraint).get()
+                    // Now assign the values and count to the FilterResults object
+                    filterResults.values = tags;
+                    filterResults.count = tags.size();
+
+                    /*db.collection("tags")
+                            .whereGreaterThanOrEqualTo("tag", constraint.toString())
+                            //.whereLessThanOrEqualTo("tag", constraint.toString() + '\uf8ff')
+                            .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
-                                        loadingDialog.dismiss();
+                                        //loadingDialog.dismiss();
+                                        tags.clear();
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            universitiesList.add(new University(document.getId(), document.getString("name")));
+                                            tags.add(document.getString("tag"));
                                         }
-                                        onDataReady();
+
+                                        //return filterResults;
                                     } else {
-                                        Log.d("Onboarding", "Error getting documents: ", task.getException());
+                                        Log.d("TagsAdapter", "Error getting documents: ", task.getException());
                                     }
                                 }
-                            });
+                            });*/
 
-                    StyleFetcher fetcher = new StyleFetcher();
-                    try {
-                        mData = fetcher.retrieveResults(constraint.toString());
-                    }
-                    catch(Exception e) {
-                        Log.e("myException", e.getMessage());
-                    }*/
-                    // Now assign the values and count to the FilterResults object
-                    filterResults.values = mData;
-                    filterResults.count = mData.size();
+
                 }
                 return filterResults;
             }
