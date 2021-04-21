@@ -26,13 +26,16 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.MessageDialog;
 import com.studentcollab.Globals.Methods;
 import com.studentcollab.Globals.TagsCompleteAdapter;
+import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.Project;
 import com.studentcollab.Models.ProjectStatus;
 import com.studentcollab.R;
@@ -40,6 +43,10 @@ import com.studentcollab.R;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -57,6 +64,7 @@ public class AddActivity extends AppCompatActivity {
     private ScrollView scrollView;
     private LoadingDialog loadingDialog;
     private MessageDialog messageDialog;
+    private ArrayList<String> newTags = new ArrayList<>();
 
 
     @Override
@@ -172,14 +180,24 @@ public class AddActivity extends AppCompatActivity {
         startDateInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPicker.show(getSupportFragmentManager(), "startPicker");
+                try {
+                    startPicker.show(getSupportFragmentManager(), "startPicker");
+                }
+                catch (Exception e) {
+                    Log.d("datepicker", "fail to show");
+                }
             }
         });
 
         endDateInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                endPicker.show(getSupportFragmentManager(), "endPicker");
+                try {
+                    endPicker.show(getSupportFragmentManager(), "endPicker");
+                }
+                catch (Exception e) {
+                    Log.d("datepicker", "fail to show");
+                }
             }
         });
 
@@ -224,6 +242,11 @@ public class AddActivity extends AppCompatActivity {
             if(chips.get(i).getText().toString().compareTo(tag) == 0)
                 return ;
         }
+
+        if (!tagExists(tag)) {
+            newTags.add(tag);
+        }
+
         Chip chip = new Chip(AddActivity.this);
 
         chip.setText(tag);
@@ -239,11 +262,19 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void removeTag(Chip chip) {
+        String tag = chip.getText().toString();
+        for (int i = 0; i < newTags.size(); i++) {
+            if (newTags.get(i).compareTo(tag) == 0) {
+                newTags.remove(i);
+                break;
+            }
+        }
+
         for(int i = 0; i < chips.size(); i++) {
             if(chips.get(i) == chip) {
                 chips.remove(i);
                 chipGroup.removeView(chip);
-                break;
+                return;
             }
         }
     }
@@ -255,8 +286,15 @@ public class AddActivity extends AppCompatActivity {
         }
     };
 
-    private void ValidateAndSendProject() {
+    private boolean tagExists(String tag) {
+        for (int i = 0; i < allTags.size(); i++) {
+            if(allTags.get(i).compareTo(tag) == 0)
+                return true;
+        }
+        return false;
+    }
 
+    private void ValidateAndSendProject() {
 
         boolean validData = true;
         String title, description;
@@ -307,16 +345,44 @@ public class AddActivity extends AppCompatActivity {
             return ;
         }
 
+        loadingDialog.start();
 
-        Project project = new Project(title, description, noUsers, startDateLong, endDateLong, ProjectStatus.NEW);
+        String uId = Variables.user.getUserId();
 
-        //find new tags and insert them in the tags collection
+        ArrayList<String> projectTags = new ArrayList<String>();
 
-        //create project => care at how you store tags in the project.
-        /*loadingDialog.start();
-        loadingDialog.dismiss();*/
+        for (int i = 0; i < chips.size(); i++) {
+            projectTags.add(chips.get(i).getText().toString());
+        }
+
+        final Project project = new Project(title, description, noUsers, startDateLong, endDateLong, ProjectStatus.NEW, Variables.user.getUserId(), projectTags);
 
 
+        WriteBatch tagsBatch = db.batch();
+
+        for (int i = 0; i < newTags.size(); i++) {
+            DocumentReference newTagDoc = db.collection("tags").document();
+            Map<String, Object> tagMap = new HashMap<>();
+            tagMap.put("tag", newTags.get(i));
+            tagsBatch.set(newTagDoc, tagMap);
+        }
+
+        tagsBatch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                db.collection("projects").add(project).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        loadingDialog.dismiss();
+                        FeedActivity.showSnackBar(R.string.add_successful_message);
+                        AddActivity.this.finish();
+                    }
+                });
+            }
+        });
 
     }
+
+    /*private void createProject (Project project) {
+    }*/
 }

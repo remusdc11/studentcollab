@@ -1,5 +1,7 @@
 package com.studentcollab.Models;
 
+import java.util.ArrayList;
+
 public class Project {
     private String documentId;
     private String title;
@@ -8,8 +10,12 @@ public class Project {
     private long startDate;
     private long endDate;
     private ProjectStatus status;
+    private String ownerId;
 
-    public Project(String documentId, String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status) {
+    private ArrayList<String> tags;
+
+
+    public Project (String documentId, String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status, String ownerId, ArrayList<String> tags) {
         this.documentId = documentId;
         this.title = name;
         this.description = description;
@@ -17,15 +23,19 @@ public class Project {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+        this.ownerId = ownerId;
+        this.tags = tags;
     }
 
-    public Project(String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status) {
+    public Project (String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status, String ownerId, ArrayList<String> tags) {
         this.title = name;
         this.description = description;
         this.numberOfUsers = numberOfUsers;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+        this.ownerId = ownerId;
+        this.tags = tags;
     }
 
     public String getDocumentId() {
@@ -38,6 +48,14 @@ public class Project {
 
     public String getTitle() {
         return title;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
     }
 
     public void setTitle(String title) {
@@ -82,5 +100,13 @@ public class Project {
 
     public void setStatus(ProjectStatus status) {
         this.status = status;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 }

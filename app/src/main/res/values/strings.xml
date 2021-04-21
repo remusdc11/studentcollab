@@ -64,6 +64,7 @@
     <string name="add_start_date_mandatory">The project start date field is mandatory.</string>
     <string name="add_end_date_mandatory">The project end date field is mandatory.</string>
     <string name="add_tags_error">The project must have at least one tag.</string>
+    <string name="add_successful_message">Project created successfully</string>
 
 
 

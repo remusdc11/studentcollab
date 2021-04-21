@@ -29,6 +29,7 @@ public class FeedActivity extends AppCompatActivity {
     private LoadingDialog loadingDialog;
     private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigation;
+    private static View container;
 
 
 
@@ -39,7 +40,7 @@ public class FeedActivity extends AppCompatActivity {
 
         //View rootLayout = findViewById(R.id.root_layout);
 
-        View container = findViewById(R.id.container);
+        container = findViewById(R.id.container);
 
         Snackbar.make(container, R.string.feed_activity_welcome, Snackbar.LENGTH_LONG).show();
 
@@ -128,5 +129,9 @@ public class FeedActivity extends AppCompatActivity {
         }
 
         Thread.currentThread().interrupt();
+    }
+
+    public static void showSnackBar(int resId) {
+        Snackbar.make(container, resId, Snackbar.LENGTH_LONG).show();
     }
 }
