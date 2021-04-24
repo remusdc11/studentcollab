@@ -11,9 +11,14 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.studentcollab.Activities.EmptyActivity;
 import com.studentcollab.Models.User;
+import com.studentcollab.R;
 
 public class Methods {
 
@@ -96,5 +101,12 @@ public class Methods {
         Intent intent = new Intent(context, EmptyActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
         android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    public static void addFragment(final FragmentManager fragmentManager, Fragment fragment, String name) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(name);
+        fragmentTransaction.commit();
     }
 }

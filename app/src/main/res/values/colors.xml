@@ -22,4 +22,9 @@
     <color name="toolbar_content">#fff</color>
     <color name="toolbar_background">#fff</color>
 
+    <color name="refresh_progress_1">#009BEE</color>
+    <color name="refresh_progress_2">#0084CA</color>
+    <color name="refresh_progress_3">#006195</color>
+
+
 </resources>

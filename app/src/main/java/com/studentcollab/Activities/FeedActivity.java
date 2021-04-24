@@ -30,6 +30,7 @@ public class FeedActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigation;
     private static View container;
+    private boolean navigate = true;
 
 
 
@@ -48,10 +49,8 @@ public class FeedActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        final Fragment fr = new HomeFragment();
-        final int id = fr.getId();
-        fragmentTransaction.replace(R.id.container, fr);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.container, new HomeFragment());
+        fragmentTransaction.addToBackStack(Variables.FRAGMENT_FEED);
         fragmentTransaction.commit();
 
         mAuth = FirebaseAuth.getInstance();
@@ -63,21 +62,29 @@ public class FeedActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (!navigate) {
+                    navigate = true;
+                    return true;
+                }
+
                 Fragment selectedFragment = null;
+                String selectedFragmentName = null;
 
                 switch (item.getItemId()) {
                     case R.id.navigation_menu_add:
                         Intent addIntent = new Intent(FeedActivity.this, AddActivity.class);
                         startActivity(addIntent);
-                        return true;
+                        return false;
 
                     case R.id.navigation_menu_home:
                         selectedFragment = new HomeFragment();
+                        selectedFragmentName = Variables.FRAGMENT_FEED;
 
                         break;
 
                     case R.id.navigation_menu_profile:
                         selectedFragment = new SettingsFragment();
+                        selectedFragmentName = Variables.FRAGMENT_PROFILE;
                         break;
                 }
 
@@ -85,15 +92,30 @@ public class FeedActivity extends AppCompatActivity {
                 assert selectedFragment != null;
                 if(!selectedFragment.isAdded())
                 {
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.add(R.id.container, selectedFragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    Methods.addFragment(fragmentManager, selectedFragment, selectedFragmentName);
+                    return true;
                 }
 
-                return true;
+                return false;
             }
         });
+
+        bottomNavigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_menu_home:
+                        fragmentManager.popBackStack(Variables.FRAGMENT_FEED, 0);
+                        break;
+
+                    case R.id.navigation_menu_profile:
+                        fragmentManager.popBackStack(Variables.FRAGMENT_PROFILE, 0);
+                        break;
+                }
+            }
+        });
+
+
 
         /*View logOut = findViewById(R.id.button_log_out);
 
@@ -123,6 +145,21 @@ public class FeedActivity extends AppCompatActivity {
        //fragmentManager.backsta
         if (backStack > 1) {
             fragmentManager.popBackStack();
+            String fragmentName = fragmentManager.getBackStackEntryAt(backStack - 2).getName();
+
+            assert fragmentName != null;
+            switch (fragmentName) {
+                case Variables.FRAGMENT_FEED:
+                    navigate = false;
+                    bottomNavigation.setSelectedItemId(R.id.navigation_menu_home);
+                    break;
+
+                case Variables.FRAGMENT_PROFILE:
+                    navigate = false;
+                    bottomNavigation.setSelectedItemId(R.id.navigation_menu_profile);
+                    break;
+            }
+
         } else {
             //Methods.killProcess(getApplicationContext());
             finish();
@@ -134,4 +171,6 @@ public class FeedActivity extends AppCompatActivity {
     public static void showSnackBar(int resId) {
         Snackbar.make(container, resId, Snackbar.LENGTH_LONG).show();
     }
+
+
 }

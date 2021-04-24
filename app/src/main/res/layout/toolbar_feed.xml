@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:elevation="@dimen/toolbar_elevation">
+
+    <FrameLayout
+        android:layout_width="@dimen/toolbar_frame_height_width"
+        android:layout_height="@dimen/toolbar_frame_height_width"
+        android:id="@+id/toolbar_feed_FrameLayout_logo"
+        android:background="?actionBarItemBackground"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp">
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@drawable/sc_white_lr"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="@dimen/toolbar_frame_height_width"
+        android:layout_height="@dimen/toolbar_frame_height_width"
+        android:id="@+id/toolbar_feed_FrameLayout_search"
+        android:background="?actionBarItemBackground"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp">
+
+        <ImageView
+            android:layout_width="@dimen/toolbar_ImageView_height_width"
+            android:layout_height="@dimen/toolbar_ImageView_height_width"
+            android:src="@drawable/search_white"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+</RelativeLayout>

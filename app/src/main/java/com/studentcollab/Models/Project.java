@@ -14,6 +14,9 @@ public class Project {
 
     private ArrayList<String> tags;
 
+    public Project() {
+
+    }
 
     public Project (String documentId, String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status, String ownerId, ArrayList<String> tags) {
         this.documentId = documentId;
