@@ -151,7 +151,7 @@
                     android:textSize="@dimen/add_text_height"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="5dp"
-                    android:maxLength="50"
+                    android:maxLength="20"
                     android:completionThreshold="1"
                     android:inputType="text"
                     />
@@ -165,17 +165,16 @@
                 android:layout_marginTop="@dimen/add_field_margin"
                 app:layout_constraintTop_toBottomOf="@id/add_input_layout_project_end_date"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-
-            </com.google.android.material.chip.ChipGroup>
 
             <Button
                 android:id="@+id/add_create_button"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/colorPrimary"
                 android:textColor="@color/text_light"
                 android:text="@string/add_button_text"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Tooltip"

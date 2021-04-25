@@ -41,5 +41,8 @@
     <dimen name="add_text_height">18sp</dimen>
     <dimen name="add_description_height">16sp</dimen>
 
+    <!-- Project Adapter -->
+    <dimen name="project_title_text_size">20sp</dimen>
+
 
 </resources>

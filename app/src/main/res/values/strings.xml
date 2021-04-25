@@ -66,6 +66,13 @@
     <string name="add_tags_error">The project must have at least one tag.</string>
     <string name="add_successful_message">Project created successfully</string>
 
+    <!-- Adapter project -->
+    <string name="adapter_project_details">Details</string>
+    <string name="adapter_project_start_date">Start date: %1$s</string>
+    <string name="adapter_project_end_date">End date: %1$s</string>
+    <string name="adapter_project_number_users">%1$d \n out of \n %2$d</string>
+
+
 
 
 </resources>

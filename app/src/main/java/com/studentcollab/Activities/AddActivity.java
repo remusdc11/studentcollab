@@ -355,8 +355,11 @@ public class AddActivity extends AppCompatActivity {
             projectTags.add(chips.get(i).getText().toString());
         }
 
-        final Project project = new Project(title, description, noUsers, startDateLong, endDateLong, ProjectStatus.NEW, Variables.user.getUserId(), projectTags);
+        String projectOwnerId = Variables.user.getUserId();
+        ArrayList<String> teamMembers = new ArrayList<>(1);
+        teamMembers.add(projectOwnerId);
 
+        final Project project = new Project(title, description, noUsers, startDateLong, endDateLong, ProjectStatus.NEW, projectOwnerId, projectTags, teamMembers);
 
         WriteBatch tagsBatch = db.batch();
 

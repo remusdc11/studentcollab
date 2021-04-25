@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.HomeFragment"
-    android:background="@color/background">
+    android:background="@color/under_card_background"
+    android:clickable="true"
+    android:focusable="true">
 
     <include
         android:id="@+id/toolbar_feed"

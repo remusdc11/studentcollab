@@ -5,6 +5,7 @@
     <color name="colorAccent">#DAA403</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="background">#ffffff</color>
+    <color name="border_card_background">#6AC6C6C6</color>
 
     <color name="divider_background">#393939</color>
 
@@ -25,6 +26,11 @@
     <color name="refresh_progress_1">#009BEE</color>
     <color name="refresh_progress_2">#0084CA</color>
     <color name="refresh_progress_3">#006195</color>
+
+    <color name="under_card_background">#F1F1F1</color>
+    <color name="card_background">#fff</color>
+    
+    
 
 
 </resources>

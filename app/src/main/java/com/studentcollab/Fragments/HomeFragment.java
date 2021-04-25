@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
                 .setQuery(query, Project.class)
                 .build();
 
-        adapter = new ProjectAdapter(options);
+        adapter = new ProjectAdapter(options, context);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

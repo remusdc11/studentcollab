@@ -148,17 +148,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String value = passwordEditText.getText().toString();
-                if(!Methods.validatePassword(value)) {
+                /*if(!Methods.validatePassword(value)) {
                     passwordEditText.setError(context.getResources().getString(R.string.login_activity_invalid_password));
                     validPassword = false;
                     loginButton.setEnabled(false);
                 }
-                else {
+                else {*/
                     passwordEditText.setError(null);
                     validPassword = true;
                     if(validEmail)
                         loginButton.setEnabled(true);
-                }
+                //}
             }
         });
 

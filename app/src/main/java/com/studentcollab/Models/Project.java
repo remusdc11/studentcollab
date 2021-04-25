@@ -14,6 +14,8 @@ public class Project {
 
     private ArrayList<String> tags;
 
+    private ArrayList<String> teamMembers;
+
     public Project() {
 
     }
@@ -30,7 +32,7 @@ public class Project {
         this.tags = tags;
     }
 
-    public Project (String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status, String ownerId, ArrayList<String> tags) {
+    public Project (String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status, String ownerId, ArrayList<String> tags, ArrayList<String> teamMembers) {
         this.title = name;
         this.description = description;
         this.numberOfUsers = numberOfUsers;
@@ -39,6 +41,7 @@ public class Project {
         this.status = status;
         this.ownerId = ownerId;
         this.tags = tags;
+        this.teamMembers = teamMembers;
     }
 
     public String getDocumentId() {
@@ -111,5 +114,29 @@ public class Project {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public ArrayList<String> getTeamMembers() {
+        return teamMembers;
+    }
+
+    public void setTeamMembers(ArrayList<String> teamMembers) {
+        this.teamMembers = teamMembers;
+    }
+
+    public void addTeamMember(String memberId) {
+        this.teamMembers.add(memberId);
+    }
+
+    public boolean removeTeamMember(String memberId) {
+        return this.teamMembers.remove(memberId);
+    }
+
+    public int getNumberOfCurrentUsers() {
+        return this.teamMembers.size();
+    }
+
+    public int getNumberOfMissingUsers() {
+        return this.numberOfUsers - this.teamMembers.size();
     }
 }
