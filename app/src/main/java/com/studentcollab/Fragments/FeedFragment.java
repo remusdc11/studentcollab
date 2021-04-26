@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -22,10 +23,9 @@ import com.studentcollab.Models.Project;
 import com.studentcollab.R;
 
 import java.util.ArrayList;
-import java.util.Queue;
 
 
-public class HomeFragment extends Fragment {
+public class FeedFragment extends Fragment {
 
     private CustomRecyclerView recyclerView;
     private CustomSwipeToRefresh swipeToRefresh;
@@ -35,8 +35,9 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference projectsRef = db.collection("projects");
     private ProjectAdapter adapter;
+    private FragmentManager fragmentManager;
 
-    public HomeFragment() {
+    public FeedFragment() {
     }
 
 
@@ -49,12 +50,14 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
         context = this.getContext();
         activity = this.getActivity();
         recyclerView = rootView.findViewById(R.id.fragment_home_recycler);
         swipeToRefresh = rootView.findViewById(R.id.fragment_home_swipe_refresh);
         setUpRecyclerView();
+
+        fragmentManager = getParentFragmentManager();
 
 
         return rootView;

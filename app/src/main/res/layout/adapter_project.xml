@@ -21,34 +21,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/adapter_project_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:backgroundTint="@color/colorPrimary"
-        android:background="@drawable/border"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:paddingStart="10dp"
-        android:paddingVertical="3dp">
+        android:background="?actionBarItemBackground">
 
-        <TextView
-            android:text="@string/adapter_project_details"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/text_light" />
+            android:gravity="center_vertical"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/border"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingVertical="3dp">
 
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/right_arrow"
-            android:layout_gravity="center"/>
-    </LinearLayout>
+            <TextView
+                android:text="@string/adapter_project_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/text_light" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/right_arrow"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/adapter_project_TextView_start_date"
@@ -104,10 +111,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="1"/>
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

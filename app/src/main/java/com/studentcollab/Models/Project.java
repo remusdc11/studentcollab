@@ -16,11 +16,15 @@ public class Project {
 
     private ArrayList<String> teamMembers;
 
-    public Project() {
+    private ArrayList<String> pendingMembers;
 
+    public Project() {
+        this.tags = new ArrayList<>();
+        this.teamMembers = new ArrayList<>();
+        this.pendingMembers = new ArrayList<>();
     }
 
-    public Project (String documentId, String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status, String ownerId, ArrayList<String> tags) {
+    public Project (String documentId, String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status, String ownerId, ArrayList<String> tags, ArrayList<String> teamMembers, ArrayList<String> pendingMembers) {
         this.documentId = documentId;
         this.title = name;
         this.description = description;
@@ -30,9 +34,11 @@ public class Project {
         this.status = status;
         this.ownerId = ownerId;
         this.tags = tags;
+        this.teamMembers = teamMembers;
+        this.pendingMembers = pendingMembers;
     }
 
-    public Project (String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status, String ownerId, ArrayList<String> tags, ArrayList<String> teamMembers) {
+    public Project (String name, String description, int numberOfUsers, long startDate, long endDate, ProjectStatus status, String ownerId, ArrayList<String> tags, ArrayList<String> teamMembers, ArrayList<String> pendingMembers) {
         this.title = name;
         this.description = description;
         this.numberOfUsers = numberOfUsers;
@@ -42,6 +48,7 @@ public class Project {
         this.ownerId = ownerId;
         this.tags = tags;
         this.teamMembers = teamMembers;
+        this.pendingMembers = pendingMembers;
     }
 
     public String getDocumentId() {
@@ -138,5 +145,21 @@ public class Project {
 
     public int getNumberOfMissingUsers() {
         return this.numberOfUsers - this.teamMembers.size();
+    }
+
+    public ArrayList<String> getPendingMembers() {
+        return pendingMembers;
+    }
+
+    public void setPendingMembers(ArrayList<String> pendingMembers) {
+        this.pendingMembers = pendingMembers;
+    }
+
+    public void AddPendingMember(String userId) {
+        this.pendingMembers.add(userId);
+    }
+
+    public boolean RemovePendingMember(String userId) {
+        return this.pendingMembers.remove(userId);
     }
 }

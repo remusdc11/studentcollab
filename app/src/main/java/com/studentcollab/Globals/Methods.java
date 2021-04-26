@@ -103,10 +103,10 @@ public class Methods {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-    public static void addFragment(final FragmentManager fragmentManager, Fragment fragment, String name) {
+    public static void addFragment(final FragmentManager fragmentManager, Fragment fragment, String tag) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container, fragment);
-        fragmentTransaction.addToBackStack(name);
+        fragmentTransaction.addToBackStack(tag.toString());
         fragmentTransaction.commit();
     }
 }

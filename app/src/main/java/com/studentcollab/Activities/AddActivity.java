@@ -359,7 +359,7 @@ public class AddActivity extends AppCompatActivity {
         ArrayList<String> teamMembers = new ArrayList<>(1);
         teamMembers.add(projectOwnerId);
 
-        final Project project = new Project(title, description, noUsers, startDateLong, endDateLong, ProjectStatus.NEW, projectOwnerId, projectTags, teamMembers);
+        final Project project = new Project(title, description, noUsers, startDateLong, endDateLong, ProjectStatus.NEW, projectOwnerId, projectTags, teamMembers, new ArrayList<String>());
 
         WriteBatch tagsBatch = db.batch();
 
@@ -373,14 +373,25 @@ public class AddActivity extends AppCompatActivity {
         tagsBatch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                db.collection("projects").add(project).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                WriteBatch projBatch = db.batch();
+                DocumentReference newProjectDoc = db.collection("projects").document();
+                project.setDocumentId(newProjectDoc.getId());
+                projBatch.set(newProjectDoc, project);
+                projBatch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                    public void onComplete(@NonNull Task<Void> task) {
                         loadingDialog.dismiss();
                         FeedActivity.showSnackBar(R.string.add_successful_message);
                         AddActivity.this.finish();
                     }
                 });
+
+                /*db.collection("projects").add(newProjectDoc).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+
+                    }
+                });*/
             }
         });
 

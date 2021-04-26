@@ -1,13 +1,17 @@
 package com.studentcollab.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -15,6 +19,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.studentcollab.Activities.AddActivity;
+import com.studentcollab.Fragments.ProjectDetailsFragment;
+import com.studentcollab.Globals.Methods;
+import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.Project;
 
 import com.studentcollab.R;
@@ -30,11 +37,13 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
     private View itemView;
     //private ProjectsHolder holder;
     private Context context;
+    private FragmentManager fragmentManager;
 
 
     public ProjectAdapter(@NonNull FirestoreRecyclerOptions<Project> options, Context context) {
         super(options);
         this.context = context;
+        this.fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
     }
 
 
@@ -56,12 +65,10 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
 
 
     @Override
-    protected void onBindViewHolder(@NonNull ProjectsHolder holder, int position, @NonNull Project model) {
+    protected void onBindViewHolder(@NonNull ProjectsHolder holder, int position, @NonNull final Project model) {
 
         holder.title.setText(model.getTitle());
-        //String startDate = new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(model.getStartDate()));
         holder.startDate.setText(context.getString(R.string.adapter_project_start_date, new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(model.getStartDate()))));
-        //String endDate = new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(model.getEndDate()));
         holder.endDate.setText(context.getString(R.string.adapter_project_end_date, new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(model.getEndDate()))));
 
         String teamMembers = context.getString(R.string.adapter_project_number_users, model.getNumberOfCurrentUsers(), model.getNumberOfUsers());
@@ -99,10 +106,20 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
                 //chip.setCloseIconVisible(true);
 
                 holder.chipGroup.addView(chip);
-                //view . set visibility(visible)
             }
-
         }
+
+
+        holder.detailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProjectDetailsFragment projectDetailsFragment = new ProjectDetailsFragment();
+                Bundle args = new Bundle();
+                args.putString("projectId", model.getDocumentId());
+                projectDetailsFragment.setArguments(args);
+                Methods.addFragment(fragmentManager, projectDetailsFragment, Variables.FRAGMENT_PROJECT);
+            }
+        });
 
         /*
         final Project currentProject = projects.get(position);
@@ -119,6 +136,7 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
         //public TextView projectIdTextView;
         ChipGroup chipGroup;
         TextView title, startDate, endDate, numberUsers;
+        View detailsButton;
 
         ProjectsHolder(@NonNull View itemView) {
             super(itemView);
@@ -128,6 +146,7 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
             endDate = itemView.findViewById(R.id.adapter_project_TextView_end_date);
             numberUsers = itemView.findViewById(R.id.adapter_project_TextView_number_users);
             chipGroup = itemView.findViewById(R.id.adapter_project_chips);
+            detailsButton = itemView.findViewById(R.id.adapter_project_details);
 
             //projectIdTextView = itemView.findViewById(R.id.adapter_project_id);
 

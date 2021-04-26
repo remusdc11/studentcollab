@@ -70,9 +70,13 @@
     <string name="adapter_project_details">Details</string>
     <string name="adapter_project_start_date">Start date: %1$s</string>
     <string name="adapter_project_end_date">End date: %1$s</string>
-    <string name="adapter_project_number_users">%1$d \n out of \n %2$d</string>
+    <string name="adapter_project_number_users">%1$d \n out of \n%2$d</string>
 
-
+    <!-- Fragment Project Details -->
+    <string name="fragment_project_description_label">Description:</string>
+    <string name="fragment_project_title">Project</string>
+    <string name="fragment_project_owner">by %1$s</string>
+    <string name="fragment_project_status">Status: %1$s</string>
 
 
 </resources>
