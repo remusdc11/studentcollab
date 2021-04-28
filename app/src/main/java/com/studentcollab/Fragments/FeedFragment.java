@@ -59,7 +59,6 @@ public class FeedFragment extends Fragment {
 
         fragmentManager = getParentFragmentManager();
 
-
         return rootView;
     }
 

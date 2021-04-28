@@ -106,7 +106,7 @@ public class OnboardingActivity extends AppCompatActivity {
                     Variables.user.setLastName(lastNameEditText.getText().toString());
                     Variables.user.setUniversityDocumentId(selectedUniversity.getDocumentId());
                     Variables.user.setInitialized(true);
-                    Variables.user.setJoinDate(new Timestamp(System.currentTimeMillis()));
+                    Variables.user.setJoinDate(new Timestamp(System.currentTimeMillis()).getTime());
 
 
                     loadingDialog.start();

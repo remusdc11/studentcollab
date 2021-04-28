@@ -9,10 +9,14 @@ public class User {
     private String userId;
     private String emailAddress;
     private String firstName, lastName;
-    private Timestamp joinDate;
+    private Long joinDate;
     private String universityDocumentId;
 
     private Boolean initialized;
+
+    public User () {
+
+    }
 
     public User(String userId, String emailAddress) {
         this.userId = userId;
@@ -43,11 +47,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Timestamp getJoinDate() {
+    public Long getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(Timestamp  joinDate) {
+    public void setJoinDate(Long  joinDate) {
         this.joinDate = joinDate;
     }
 

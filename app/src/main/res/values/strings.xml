@@ -77,6 +77,8 @@
     <string name="fragment_project_title">Project</string>
     <string name="fragment_project_owner">by %1$s</string>
     <string name="fragment_project_status">Status: %1$s</string>
+    <string name="fragment_project_team_label">Team members:</string>
+    <string name="fragment_project_team_members_number">%1$d out of %2$d</string>
 
 
 </resources>

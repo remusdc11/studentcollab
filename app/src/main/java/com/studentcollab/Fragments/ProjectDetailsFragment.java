@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,23 +23,29 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.studentcollab.Adapters.ProjectAdapter;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.MessageDialog;
 import com.studentcollab.Models.Project;
+import com.studentcollab.Models.UserProjectDTO;
 import com.studentcollab.R;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class ProjectDetailsFragment extends Fragment {
 
     private String projectId;
     private View backButton;
-    private TextView toolbarTitle, title, owner, startDate, endDate, status, description;
+    private TextView toolbarTitle, title, owner, startDate, endDate, status, description, teamMembersNumber;
     private ChipGroup chipGroup;
+    private ListView membersListView;
     private Project project = new Project();
     private FirebaseFirestore db;
     private LoadingDialog loadingDialog;
@@ -45,6 +53,8 @@ public class ProjectDetailsFragment extends Fragment {
     private Context context;
     private AppCompatActivity activity;
     private FragmentManager fragmentManager;
+    private ArrayList<UserProjectDTO> teamMembers = new ArrayList<>();
+    private ArrayList<String> teamMembersString = new ArrayList<>();
 
     public ProjectDetailsFragment() {
         // Required empty public constructor
@@ -104,7 +114,9 @@ public class ProjectDetailsFragment extends Fragment {
         endDate = rootView.findViewById(R.id.adapter_project_TextView_end_date);
         status = rootView.findViewById(R.id.adapter_project_TextView_status);
         description = rootView.findViewById(R.id.adapter_project_TextView_description);
+        teamMembersNumber = rootView.findViewById(R.id.project_details_team_members_number);
         chipGroup = rootView.findViewById(R.id.adapter_project_chips);
+        membersListView = rootView.findViewById(R.id.fragment_project_list_team_members);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +128,6 @@ public class ProjectDetailsFragment extends Fragment {
 
         //idTv.setText(projectId);
 
-
         return rootView;
     }
 
@@ -127,6 +138,7 @@ public class ProjectDetailsFragment extends Fragment {
         endDate.setText(context.getString(R.string.adapter_project_start_date, new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(project.getEndDate()))));
         status.setText(context.getString(R.string.fragment_project_status, project.getStatus().toString()));
         description.setText(project.getDescription());
+        teamMembersNumber.setText(context.getString(R.string.fragment_project_team_members_number, project.getNumberOfCurrentUsers(), project.getNumberOfUsers()));
 
         ArrayList<String> tags = project.getTags();
         if (tags != null) {
@@ -144,6 +156,64 @@ public class ProjectDetailsFragment extends Fragment {
                 chipGroup.addView(chip);
             }
         }
+        getTeamMembers();
+    }
+
+    private int count;
+    private void getTeamMembers() {
+        count = 0;
+
+        loadingDialog.start();
+        teamMembers.clear();
+        teamMembersString.clear();
+        db.collection("users").whereIn("userId",project.getTeamMembers()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(++count > 1) {
+                    loadingDialog.dismiss();
+                    loadMembersList();
+                }
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        UserProjectDTO user = document.toObject(UserProjectDTO.class);
+                        user.setUserAccepted(true);
+                        teamMembersString.add(user.getFirstName() + " " +user.getLastName() + " " + user.isUserAccepted());
+                        teamMembers.add(user);
+                    }
+                }
+            }
+        });
+
+        if(!project.getPendingMembers().isEmpty()) {
+            db.collection("users").whereIn("userId", project.getPendingMembers()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(++count > 1) {
+                        loadingDialog.dismiss();
+                        loadMembersList();
+                    }
+
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            UserProjectDTO user = document.toObject(UserProjectDTO.class);
+                            user.setUserAccepted(false);
+                            teamMembers.add(user);
+                            teamMembersString.add(user.getFirstName() + " " +user.getLastName() + " " + user.isUserAccepted());
+                        }
+                    }
+                }
+            });
+        }
+        else {
+            count++;
+        }
+
+    }
+
+    private void loadMembersList() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, android.R.id.text1, teamMembersString);
+
+        membersListView.setAdapter(adapter);
 
     }
 }
