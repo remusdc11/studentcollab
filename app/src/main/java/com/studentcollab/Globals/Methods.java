@@ -7,9 +7,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -106,7 +110,36 @@ public class Methods {
     public static void addFragment(final FragmentManager fragmentManager, Fragment fragment, String tag) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container, fragment);
-        fragmentTransaction.addToBackStack(tag.toString());
+        fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();
+    }
+
+    public static void getListViewSize(ListView myListView, Context context) {
+        ListAdapter myListAdapter=myListView.getAdapter();
+        if (myListAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int size = 0; size < myListAdapter.getCount(); size++) {
+            View listItem=myListAdapter.getView(size, null, myListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        totalHeight += pxFromDp(context, 20);
+
+        ViewGroup.LayoutParams params=myListView.getLayoutParams();
+        params.height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
+        myListView.setLayoutParams(params);
+        Log.d("User in list height", String.valueOf(totalHeight));
+    }
+
+    public static float dpFromPx(final Context context, final float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    public static float pxFromDp(final Context context, final float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
     }
 }

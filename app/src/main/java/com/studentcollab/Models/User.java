@@ -1,13 +1,10 @@
 package com.studentcollab.Models;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 public class User {
 
     private String documentId;
     private String userId;
-    private String emailAddress;
+    private String userEmail;
     private String firstName, lastName;
     private Long joinDate;
     private String universityDocumentId;
@@ -18,9 +15,9 @@ public class User {
 
     }
 
-    public User(String userId, String emailAddress) {
+    public User(String userId, String userEmail) {
         this.userId = userId;
-        this.emailAddress = emailAddress;
+        this.userEmail = userEmail;
     }
 
     public String getDocumentId() {
@@ -68,7 +65,7 @@ public class User {
     }
 
     public String getUserEmail() {
-        return this.emailAddress;
+        return this.userEmail;
     }
 
     public Boolean getInitialized() {

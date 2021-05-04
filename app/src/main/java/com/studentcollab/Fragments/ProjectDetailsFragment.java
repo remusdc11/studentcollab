@@ -26,8 +26,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.studentcollab.Adapters.ProjectAdapter;
+import com.studentcollab.Adapters.TeamMemberAdapter;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.MessageDialog;
+import com.studentcollab.Globals.Methods;
 import com.studentcollab.Models.Project;
 import com.studentcollab.Models.UserProjectDTO;
 import com.studentcollab.R;
@@ -43,7 +45,7 @@ public class ProjectDetailsFragment extends Fragment {
 
     private String projectId;
     private View backButton;
-    private TextView toolbarTitle, title, owner, startDate, endDate, status, description, teamMembersNumber;
+    private TextView toolbarTitle, title, startDate, endDate, status, description, teamMembersNumber;
     private ChipGroup chipGroup;
     private ListView membersListView;
     private Project project = new Project();
@@ -54,7 +56,6 @@ public class ProjectDetailsFragment extends Fragment {
     private AppCompatActivity activity;
     private FragmentManager fragmentManager;
     private ArrayList<UserProjectDTO> teamMembers = new ArrayList<>();
-    private ArrayList<String> teamMembersString = new ArrayList<>();
 
     public ProjectDetailsFragment() {
         // Required empty public constructor
@@ -83,18 +84,7 @@ public class ProjectDetailsFragment extends Fragment {
             //fragmentManager.popBackStack();
         }
         else {
-            loadingDialog.start();
-
-            db.collection("projects").document(projectId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    assert documentSnapshot != null;
-                    project = documentSnapshot.toObject(Project.class);
-                    populateViews();
-                    loadingDialog.dismiss();
-                }
-            });
+           loadProject();
         }
     }
 
@@ -109,7 +99,6 @@ public class ProjectDetailsFragment extends Fragment {
         toolbarTitle.setText(R.string.fragment_project_title);
 
         title = rootView.findViewById(R.id.adapter_project_TextView_title);
-        owner = rootView.findViewById(R.id.adapter_project_owner);
         startDate = rootView.findViewById(R.id.adapter_project_TextView_start_date);
         endDate = rootView.findViewById(R.id.adapter_project_TextView_end_date);
         status = rootView.findViewById(R.id.adapter_project_TextView_status);
@@ -131,9 +120,23 @@ public class ProjectDetailsFragment extends Fragment {
         return rootView;
     }
 
+    private void loadProject() {
+        loadingDialog.start();
+
+        db.collection("projects").document(projectId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot documentSnapshot = task.getResult();
+                assert documentSnapshot != null;
+                project = documentSnapshot.toObject(Project.class);
+                populateViews();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
     private void populateViews() {
         title.setText(project.getTitle());
-        owner.setText(context.getString(R.string.fragment_project_owner, project.getOwnerId()));
         startDate.setText(context.getString(R.string.adapter_project_start_date, new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(project.getStartDate()))));
         endDate.setText(context.getString(R.string.adapter_project_start_date, new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(project.getEndDate()))));
         status.setText(context.getString(R.string.fragment_project_status, project.getStatus().toString()));
@@ -165,21 +168,21 @@ public class ProjectDetailsFragment extends Fragment {
 
         loadingDialog.start();
         teamMembers.clear();
-        teamMembersString.clear();
         db.collection("users").whereIn("userId",project.getTeamMembers()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(++count > 1) {
-                    loadingDialog.dismiss();
-                    loadMembersList();
-                }
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         UserProjectDTO user = document.toObject(UserProjectDTO.class);
                         user.setUserAccepted(true);
-                        teamMembersString.add(user.getFirstName() + " " +user.getLastName() + " " + user.isUserAccepted());
+                        if (user.getUserId().compareTo(project.getOwnerId()) == 0)
+                            user.setOwner(true);
                         teamMembers.add(user);
                     }
+                }
+                if(++count > 1) {
+                    loadingDialog.dismiss();
+                    loadMembersList();
                 }
             }
         });
@@ -188,18 +191,16 @@ public class ProjectDetailsFragment extends Fragment {
             db.collection("users").whereIn("userId", project.getPendingMembers()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if(++count > 1) {
-                        loadingDialog.dismiss();
-                        loadMembersList();
-                    }
-
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             UserProjectDTO user = document.toObject(UserProjectDTO.class);
                             user.setUserAccepted(false);
                             teamMembers.add(user);
-                            teamMembersString.add(user.getFirstName() + " " +user.getLastName() + " " + user.isUserAccepted());
                         }
+                    }
+                    if(++count > 1) {
+                        loadingDialog.dismiss();
+                        loadMembersList();
                     }
                 }
             });
@@ -211,9 +212,9 @@ public class ProjectDetailsFragment extends Fragment {
     }
 
     private void loadMembersList() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, android.R.id.text1, teamMembersString);
+        TeamMemberAdapter adapter = new TeamMemberAdapter(context, teamMembers, project);
 
         membersListView.setAdapter(adapter);
-
+        Methods.getListViewSize(membersListView, context);
     }
 }

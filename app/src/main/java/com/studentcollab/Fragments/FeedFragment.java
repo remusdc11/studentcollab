@@ -63,7 +63,7 @@ public class FeedFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        Query query = projectsRef.orderBy("startDate", Query.Direction.ASCENDING);
+        Query query = projectsRef.orderBy("startDate", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<Project> options = new FirestoreRecyclerOptions.Builder<Project>()
                 .setQuery(query, Project.class)
