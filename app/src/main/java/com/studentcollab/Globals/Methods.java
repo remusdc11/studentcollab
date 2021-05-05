@@ -92,7 +92,15 @@ public class Methods {
     }
 
     public static boolean validatePassword(String password) {
-        return password != null && password.trim().length() > 5;
+        boolean containsDigit = false;
+        if (password != null && !password.isEmpty()) {
+            for (char c : password.toCharArray()) {
+                if (containsDigit = Character.isDigit(c)) {
+                    break;
+                }
+            }
+        }
+        return password != null && password.trim().length() > 5 && containsDigit;
     }
 
     public static void setGlobalUser(FirebaseUser firebaseUser) {

@@ -73,7 +73,7 @@ public class TeamMemberAdapter extends ArrayAdapter<UserProjectDTO> {
                     confirmButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            
+
                         }
                     });
                 }
