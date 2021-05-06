@@ -1,5 +1,6 @@
 package com.studentcollab.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.google.errorprone.annotations.Var;
+import com.studentcollab.Fragments.ProjectDetailsFragment;
 import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.Project;
 import com.studentcollab.Models.UserProjectDTO;
@@ -23,12 +26,14 @@ public class TeamMemberAdapter extends ArrayAdapter<UserProjectDTO> {
     private Context context;
     private ArrayList<UserProjectDTO> teamMembers;
     private Project project;
+    private ProjectDetailsFragment parentFragment;
 
-    public TeamMemberAdapter(@NonNull Context context, ArrayList<UserProjectDTO> teamMembers, Project project) {
+    public TeamMemberAdapter(@NonNull Context context, ArrayList<UserProjectDTO> teamMembers, Project project, ProjectDetailsFragment parentFragment) {
         super(context, R.layout.adapter_team_member, teamMembers);
         this.context = context;
         this.teamMembers = teamMembers;
         this.project = project;
+        this.parentFragment = parentFragment;
     }
 
     @Override
@@ -40,7 +45,7 @@ public class TeamMemberAdapter extends ArrayAdapter<UserProjectDTO> {
             rootView = LayoutInflater.from(context).inflate(R.layout.adapter_team_member, parent, false);
         }
 
-        UserProjectDTO teamMember = teamMembers.get(position);
+        final UserProjectDTO teamMember = teamMembers.get(position);
 
         if (teamMember != null) {
 
@@ -73,6 +78,7 @@ public class TeamMemberAdapter extends ArrayAdapter<UserProjectDTO> {
                     confirmButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            TeamMemberAdapter.this.parentFragment.acceptMember(teamMember.getUserId());
 
                         }
                     });

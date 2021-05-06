@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -38,7 +40,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ProjectDetailsFragment extends Fragment {
@@ -122,6 +126,7 @@ public class ProjectDetailsFragment extends Fragment {
 
     private void loadProject() {
         loadingDialog.start();
+        //teamMembers.clear();
 
         db.collection("projects").document(projectId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -130,7 +135,7 @@ public class ProjectDetailsFragment extends Fragment {
                 assert documentSnapshot != null;
                 project = documentSnapshot.toObject(Project.class);
                 populateViews();
-                loadingDialog.dismiss();
+                //loadingDialog.dismiss();
             }
         });
     }
@@ -166,7 +171,7 @@ public class ProjectDetailsFragment extends Fragment {
     private void getTeamMembers() {
         count = 0;
 
-        loadingDialog.start();
+        //loadingDialog.start();
         teamMembers.clear();
         db.collection("users").whereIn("userId",project.getTeamMembers()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -212,9 +217,41 @@ public class ProjectDetailsFragment extends Fragment {
     }
 
     private void loadMembersList() {
-        TeamMemberAdapter adapter = new TeamMemberAdapter(context, teamMembers, project);
+        TeamMemberAdapter adapter = new TeamMemberAdapter(context, teamMembers, project, ProjectDetailsFragment.this);
 
         membersListView.setAdapter(adapter);
         Methods.getListViewSize(membersListView, context);
     }
+
+    public void acceptMember(String userId) {
+        if (this.project.getPendingMembers().remove(userId)) {
+            this.loadingDialog.start();
+            this.project.getTeamMembers().add(userId);
+            Map<String, Object> membersMap = new HashMap<>();
+            membersMap.put("teamMembers", project.getTeamMembers());
+            membersMap.put("pendingMembers", project.getPendingMembers());
+            this.db.collection("projects").document(this.project.getDocumentId()).update(membersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    ProjectDetailsFragment.this.loadProject();
+                }
+            });
+        }
+
+    }
+
+    public void removeMember(String memberId) {
+        if (this.project.getTeamMembers().remove(memberId)) {
+            this.loadingDialog.start();
+            Map<String, Object> membersMap = new HashMap<>();
+            membersMap.put("teamMembers", project.getTeamMembers());
+            this.db.collection("projects").document(this.project.getDocumentId()).update(membersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    ProjectDetailsFragment.this.loadProject();
+                }
+            });
+        }
+    }
+
 }
