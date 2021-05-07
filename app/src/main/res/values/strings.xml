@@ -4,6 +4,8 @@
 
     <!--MessageDialog-->
     <string name="message_dialog_ok">Ok</string>
+    <string name="message_dialog_confirm">Yes</string>
+    <string name="message_dialog_cancel">Cancel</string>
 
     <!--Toolbars-->
     <string name="toolbar_next_button_next">Next</string>
@@ -81,6 +83,9 @@
     <string name="fragment_project_team_members_number">%1$d out of %2$d</string>
     <string name="adapter_team_member_pending">Pending request</string>
     <string name="adapter_team_member_owner">Owner</string>
+    <string name="fragment_project_details_remove_member_confirmation">Are you sure you want to remove %1$s?</string>
+    <string name="fragment_project_details_decline_pending_request_confirmation">Are you sure you want to decline %1$s?</string>
+
 
 
 </resources>

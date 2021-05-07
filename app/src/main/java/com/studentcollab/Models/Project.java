@@ -1,5 +1,6 @@
 package com.studentcollab.Models;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Project {
@@ -108,11 +109,16 @@ public class Project {
     }
 
     public ProjectStatus getStatus() {
+        long now = (new Timestamp(System.currentTimeMillis())).getTime();
+        if (this.startDate > now)
+            this.status = ProjectStatus.NEW;
+        else {
+            if(now <= this.endDate)
+                this.status = ProjectStatus.STARTED;
+            else
+                this.status = ProjectStatus.ENDED;
+        }
         return status;
-    }
-
-    public void setStatus(ProjectStatus status) {
-        this.status = status;
     }
 
     public String getOwnerId() {

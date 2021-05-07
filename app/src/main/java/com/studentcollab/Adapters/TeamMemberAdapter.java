@@ -91,7 +91,10 @@ public class TeamMemberAdapter extends ArrayAdapter<UserProjectDTO> {
                     cancelButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            if (teamMember.isUserAccepted())
+                                TeamMemberAdapter.this.parentFragment.removeMember(teamMember.getUserId(), teamMember.getFirstName() + " " + teamMember.getLastName());
+                            else
+                                TeamMemberAdapter.this.parentFragment.declinePendingRequest(teamMember.getUserId(), teamMember.getFirstName() + " " + teamMember.getLastName());
                         }
                     });
                 }

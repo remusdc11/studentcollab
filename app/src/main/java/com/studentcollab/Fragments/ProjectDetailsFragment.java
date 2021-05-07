@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.studentcollab.Adapters.ProjectAdapter;
 import com.studentcollab.Adapters.TeamMemberAdapter;
+import com.studentcollab.Globals.ConfirmationDialog;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.MessageDialog;
 import com.studentcollab.Globals.Methods;
@@ -60,6 +61,7 @@ public class ProjectDetailsFragment extends Fragment {
     private AppCompatActivity activity;
     private FragmentManager fragmentManager;
     private ArrayList<UserProjectDTO> teamMembers = new ArrayList<>();
+    private ConfirmationDialog confirmationDialog;
 
     public ProjectDetailsFragment() {
         // Required empty public constructor
@@ -126,7 +128,9 @@ public class ProjectDetailsFragment extends Fragment {
 
     private void loadProject() {
         loadingDialog.start();
-        //teamMembers.clear();
+        teamMembers.clear();
+        if (chipGroup != null)
+            chipGroup.removeAllViews();
 
         db.collection("projects").document(projectId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -240,18 +244,50 @@ public class ProjectDetailsFragment extends Fragment {
 
     }
 
-    public void removeMember(String memberId) {
-        if (this.project.getTeamMembers().remove(memberId)) {
-            this.loadingDialog.start();
-            Map<String, Object> membersMap = new HashMap<>();
-            membersMap.put("teamMembers", project.getTeamMembers());
-            this.db.collection("projects").document(this.project.getDocumentId()).update(membersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    ProjectDetailsFragment.this.loadProject();
+    public void removeMember(final String memberId, String memberName) {
+        confirmationDialog  = new ConfirmationDialog(activity, getString(R.string.fragment_project_details_remove_member_confirmation, memberName),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ProjectDetailsFragment.this.project.getTeamMembers().remove(memberId)) {
+                            ProjectDetailsFragment.this.loadingDialog.start();
+                            Map<String, Object> membersMap = new HashMap<>();
+                            membersMap.put("teamMembers", project.getTeamMembers());
+                            ProjectDetailsFragment.this.db.collection("projects").document(ProjectDetailsFragment.this.project.getDocumentId()).update(membersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    ProjectDetailsFragment.this.loadProject();
+                                }
+                            });
+                        }
+                        confirmationDialog.dismiss();
+                    }
                 }
-            });
-        }
+        );
+        confirmationDialog.show();
+    }
+
+    public void declinePendingRequest(final String userId, String userName) {
+        confirmationDialog  = new ConfirmationDialog(activity, getString(R.string.fragment_project_details_decline_pending_request_confirmation, userName),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ProjectDetailsFragment.this.project.getPendingMembers().remove(userId)) {
+                            ProjectDetailsFragment.this.loadingDialog.start();
+                            Map<String, Object> membersMap = new HashMap<>();
+                            membersMap.put("pendingMembers", project.getPendingMembers());
+                            ProjectDetailsFragment.this.db.collection("projects").document(ProjectDetailsFragment.this.project.getDocumentId()).update(membersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    ProjectDetailsFragment.this.loadProject();
+                                }
+                            });
+                        }
+                        confirmationDialog.dismiss();
+                    }
+                }
+        );
+        confirmationDialog.show();
     }
 
 }

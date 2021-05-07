@@ -12,25 +12,27 @@ import com.studentcollab.R;
 //NOT EVEN CLOSE TO BEING DONE
 public class ConfirmationDialog {
 
-    private AlertDialog messageDialog = null;
+    private AlertDialog confirmationDialog = null;
     private TextView messageTextView;
     private View confirmButton;
     private View cancelButton;
     private String message;
+    private View.OnClickListener onClickListener = null;
 
-    public ConfirmationDialog(Activity activity, String message) {
+    public ConfirmationDialog(Activity activity, String message, View.OnClickListener onClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
 
-        builder.setView(inflater.inflate(R.layout.message_dialog, null));
+        builder.setView(inflater.inflate(R.layout.confirmation_dialog, null));
         builder.setCancelable(true);
 
         this.message = message;
+        this.onClickListener = onClickListener;
 
-        messageDialog = builder.create();
-        messageDialog.setCanceledOnTouchOutside(false);
-        messageDialog.setCancelable(false);
+        confirmationDialog = builder.create();
+        confirmationDialog.setCanceledOnTouchOutside(false);
+        confirmationDialog.setCancelable(false);
     }
 
     public void setMessage(String message) {
@@ -39,10 +41,17 @@ public class ConfirmationDialog {
             messageTextView.setText(this.message);
     }
 
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+        if (cancelButton != null)
+            cancelButton.setOnClickListener(onClickListener);
+    }
+
     public void show() {
-        messageDialog.show();
-        messageTextView = messageDialog.findViewById(R.id.message_dialog_TextView_message);
-        cancelButton = messageDialog.findViewById(R.id.message_dialog_Button_ok);
+        confirmationDialog.show();
+        messageTextView = confirmationDialog.findViewById(R.id.message_dialog_TextView_message);
+        confirmButton = confirmationDialog.findViewById(R.id.message_dialog_Button_ok);
+        cancelButton = confirmationDialog.findViewById(R.id.message_dialog_Button_cancel);
 
         messageTextView.setText(this.message);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -51,12 +60,13 @@ public class ConfirmationDialog {
                 dismiss();
             }
         });
+
+        if (this.onClickListener != null)
+            confirmButton.setOnClickListener(this.onClickListener);
     }
 
     public void dismiss() {
-        if(messageDialog != null)
-            messageDialog.dismiss();
+        if(confirmationDialog != null)
+            confirmationDialog.dismiss();
     }
-
-
 }

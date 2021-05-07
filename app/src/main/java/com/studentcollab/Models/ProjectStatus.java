@@ -2,7 +2,7 @@ package com.studentcollab.Models;
 
 public enum ProjectStatus {
     NEW,
-    READY,
+    //READY,
     STARTED,
     ENDED
 }
