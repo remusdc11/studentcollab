@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:background="@color/colorPrimary"
+    android:elevation="@dimen/toolbar_elevation">
+
+    <FrameLayout
+        android:layout_width="@dimen/toolbar_frame_height_width"
+        android:layout_height="@dimen/toolbar_frame_height_width"
+        android:id="@+id/toolbar_project_FrameLayout_back"
+        android:background="?actionBarItemBackground">
+
+        <ImageView
+            android:layout_width="@dimen/toolbar_ImageView_height_width"
+            android:layout_height="@dimen/toolbar_ImageView_height_width"
+            android:src="@drawable/back"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/toolbar_project_TextView_section"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/toolbar_content"
+        android:textSize="@dimen/toolbar_button_text"
+        android:gravity="center_vertical"
+        android:layout_toEndOf="@id/toolbar_project_FrameLayout_back"
+        android:layout_marginStart="@dimen/toolbar_TextView_marginStart" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/toolbar_project_button_apply"
+        android:background="?selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/toolbar_View_padding_margin"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/toolbar_content"
+            android:text="@string/fragment_project_details_apply"
+            android:textAllCaps="true"
+            android:textSize="@dimen/toolbar_TextView_submit_text"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:id="@+id/toolbar_project_TextView_apply"/>
+
+        <ImageView
+            android:id="@+id/toolbar_project_ImageView_apply"
+            android:layout_width="@dimen/toolbar_ImageView_height_width"
+            android:layout_height="@dimen/toolbar_ImageView_height_width"
+            android:src="@drawable/add_white"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

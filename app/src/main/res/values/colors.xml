@@ -14,6 +14,7 @@
     <color name="text_hint_dark">#90000000</color>
     <color name="text_hint_light">#e0e0e0</color>
     <color name="text_light">#ffffff</color>
+    <color name="text_dark_grey">#BF000000</color>
     <color name="text_dark">#000000</color>
 
 

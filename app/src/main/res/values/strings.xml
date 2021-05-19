@@ -85,6 +85,18 @@
     <string name="adapter_team_member_owner">Owner</string>
     <string name="fragment_project_details_remove_member_confirmation">Are you sure you want to remove %1$s?</string>
     <string name="fragment_project_details_decline_pending_request_confirmation">Are you sure you want to decline %1$s?</string>
+    <string name="fragment_project_details_apply">Apply</string>
+    <string name="fragment_project_details_resign">Resign</string>
+    <string name="fragment_project_details_resign_confirmation">Are you sure you want to resign from this project?</string>
+
+
+    <!-- Fragment Profile -->
+    <string name="fragment_profile_log_out">Log out</string>
+    <string name="fragment_profile_projects_created">Created projects</string>
+    <string name="fragment_profile_projects_participated">Completed projects</string>
+    <string name="fragment_profile_rating">Rating</string>
+    <string name="fragment_profile_logout_confirmation">Are you sure you want to disconnect?</string>
+
 
 
 

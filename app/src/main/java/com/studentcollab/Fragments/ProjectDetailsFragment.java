@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.errorprone.annotations.Var;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -33,7 +35,9 @@ import com.studentcollab.Globals.ConfirmationDialog;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.MessageDialog;
 import com.studentcollab.Globals.Methods;
+import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.Project;
+import com.studentcollab.Models.ProjectStatus;
 import com.studentcollab.Models.UserProjectDTO;
 import com.studentcollab.R;
 
@@ -49,8 +53,9 @@ import java.util.Map;
 public class ProjectDetailsFragment extends Fragment {
 
     private String projectId;
-    private View backButton;
-    private TextView toolbarTitle, title, startDate, endDate, status, description, teamMembersNumber;
+    private View backButton, applyButton;
+    private TextView toolbarTitle, title, startDate, endDate, status, description, teamMembersNumber, applyTextView;
+    private ImageView applyImageView;
     private ChipGroup chipGroup;
     private ListView membersListView;
     private Project project = new Project();
@@ -99,8 +104,11 @@ public class ProjectDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView =  inflater.inflate(R.layout.fragment_project_details, container, false);
 
-        backButton = rootView.findViewById(R.id.toolbar_simple_FrameLayout_back);
-        toolbarTitle = rootView.findViewById(R.id.toolbar_simple_TextView_section);
+        backButton = rootView.findViewById(R.id.toolbar_project_FrameLayout_back);
+        toolbarTitle = rootView.findViewById(R.id.toolbar_project_TextView_section);
+        applyButton = rootView.findViewById(R.id.toolbar_project_button_apply);
+        applyImageView = rootView.findViewById(R.id.toolbar_project_ImageView_apply);
+        applyTextView = rootView.findViewById(R.id.toolbar_project_TextView_apply);
 
         toolbarTitle.setText(R.string.fragment_project_title);
 
@@ -168,6 +176,7 @@ public class ProjectDetailsFragment extends Fragment {
                 chipGroup.addView(chip);
             }
         }
+
         getTeamMembers();
     }
 
@@ -217,10 +226,51 @@ public class ProjectDetailsFragment extends Fragment {
         else {
             count++;
         }
-
     }
 
+    private boolean isPending = false;
+
     private void loadMembersList() {
+
+        if (this.canApplyOrResign()) {
+            this.applyButton.setVisibility(View.VISIBLE);
+            boolean isInProject = false;
+            isPending = false;
+            for (UserProjectDTO user : this.teamMembers) {
+                if (user.getUserId().equals(Variables.user.getUserId())) {
+                    isInProject = true;
+                    if(!user.isUserAccepted())
+                        isPending = true;
+                    break;
+                }
+            }
+            if (isInProject) {
+                this.applyTextView.setText(R.string.fragment_project_details_resign);
+                this.applyImageView.setImageResource(R.drawable.cancel_white);
+
+                applyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ProjectDetailsFragment.this.resignFromProject(isPending);
+                    }
+                });
+            }
+            else {
+                this.applyTextView.setText(R.string.fragment_project_details_apply);
+                this.applyImageView.setImageResource(R.drawable.add_white);
+
+                applyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ProjectDetailsFragment.this.applyToProject();
+                    }
+                });
+            }
+        }
+        else {
+            this.applyButton.setVisibility(View.GONE);
+        }
+
         TeamMemberAdapter adapter = new TeamMemberAdapter(context, teamMembers, project, ProjectDetailsFragment.this);
 
         membersListView.setAdapter(adapter);
@@ -288,6 +338,64 @@ public class ProjectDetailsFragment extends Fragment {
                 }
         );
         confirmationDialog.show();
+    }
+
+    private void applyToProject() {
+        this.project.getPendingMembers().add(Variables.user.getUserId());
+
+        ProjectDetailsFragment.this.loadingDialog.start();
+        Map<String, Object> membersMap = new HashMap<>();
+        membersMap.put("pendingMembers", project.getPendingMembers());
+        ProjectDetailsFragment.this.db.collection("projects").document(ProjectDetailsFragment.this.project.getDocumentId()).update(membersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                ProjectDetailsFragment.this.loadProject();
+            }
+        });
+    }
+
+    private void resignFromProject(final boolean isPending) {
+        confirmationDialog  = new ConfirmationDialog(activity, getString(R.string.fragment_project_details_resign_confirmation),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (isPending) {
+                            if (ProjectDetailsFragment.this.project.getPendingMembers().remove(Variables.user.getUserId())) {
+                                ProjectDetailsFragment.this.loadingDialog.start();
+                                Map<String, Object> membersMap = new HashMap<>();
+                                membersMap.put("pendingMembers", project.getPendingMembers());
+                                ProjectDetailsFragment.this.db.collection("projects").document(ProjectDetailsFragment.this.project.getDocumentId()).update(membersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        ProjectDetailsFragment.this.loadProject();
+                                    }
+                                });
+                            }
+                            confirmationDialog.dismiss();
+                        }
+                        else {
+                            if (ProjectDetailsFragment.this.project.getTeamMembers().remove(Variables.user.getUserId())) {
+                                ProjectDetailsFragment.this.loadingDialog.start();
+                                Map<String, Object> membersMap = new HashMap<>();
+                                membersMap.put("teamMembers", project.getTeamMembers());
+                                ProjectDetailsFragment.this.db.collection("projects").document(ProjectDetailsFragment.this.project.getDocumentId()).update(membersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        ProjectDetailsFragment.this.loadProject();
+                                    }
+                                });
+                            }
+                            confirmationDialog.dismiss();
+                        }
+                    }
+                }
+        );
+        confirmationDialog.show();
+    }
+
+    private boolean canApplyOrResign () {
+        return !project.getOwnerId().equals(Variables.user.getUserId()) && project.getStatus() == ProjectStatus.NEW;
     }
 
 }

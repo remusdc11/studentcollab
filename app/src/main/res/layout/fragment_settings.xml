@@ -26,7 +26,7 @@
             android:layout_width="@dimen/settings_image_view_size"
             android:layout_height="@dimen/settings_image_view_size"
             android:layout_gravity="center"
-            android:src="@drawable/log_out_black"
+            android:src="@drawable/log_out_white"
             android:layout_margin="@dimen/settings_image_view_margin"
             />
 

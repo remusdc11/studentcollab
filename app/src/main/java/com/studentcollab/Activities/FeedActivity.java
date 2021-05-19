@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.studentcollab.Fragments.FeedFragment;
+import com.studentcollab.Fragments.ProfileFragment;
 import com.studentcollab.Fragments.SettingsFragment;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.Methods;
@@ -60,10 +61,10 @@ public class FeedActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (!navigate) {
+                /*if (!navigate) {
                     navigate = true;
                     return true;
-                }
+                }*/
 
                 Fragment selectedFragment = null;
                 String selectedFragmentName = null;
@@ -81,7 +82,10 @@ public class FeedActivity extends AppCompatActivity {
                         break;
 
                     case R.id.navigation_menu_profile:
-                        selectedFragment = new SettingsFragment();
+                        selectedFragment = new ProfileFragment();
+                        Bundle args = new Bundle();
+                        args.putString("projectId", Variables.user.getUserId());
+                        selectedFragment.setArguments(args);
                         selectedFragmentName = Variables.FRAGMENT_PROFILE;
                         break;
                 }
