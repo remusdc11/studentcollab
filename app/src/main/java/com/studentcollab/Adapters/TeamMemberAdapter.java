@@ -2,6 +2,7 @@ package com.studentcollab.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.errorprone.annotations.Var;
+import com.studentcollab.Activities.WriteReviewActivity;
 import com.studentcollab.Fragments.ProjectDetailsFragment;
 import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.Project;
+import com.studentcollab.Models.ProjectStatus;
 import com.studentcollab.Models.UserProjectDTO;
 import com.studentcollab.R;
 
@@ -55,6 +58,7 @@ public class TeamMemberAdapter extends ArrayAdapter<UserProjectDTO> {
             TextView pending = rootView.findViewById(R.id.adapter_team_member_pending);
             View confirmButton = rootView.findViewById(R.id.adapter_team_member_confirm);
             View cancelButton = rootView.findViewById(R.id.adapter_team_member_cancel);
+            View reviewButton = rootView.findViewById(R.id.adapter_team_member_review);
 
             userName.setText(teamMember.getFirstName() + " " + teamMember.getLastName());
 
@@ -69,45 +73,79 @@ public class TeamMemberAdapter extends ArrayAdapter<UserProjectDTO> {
             }
 
 
-            if (Variables.user.getUserId().compareTo(project.getOwnerId()) == 0)
-            {
-                if(teamMember.isUserAccepted()) {
+            if (project.getStatus() == ProjectStatus.NEW) {
+                confirmButton.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                reviewButton.setVisibility(View.GONE);
+
+                if (Variables.user.getUserId().compareTo(project.getOwnerId()) == 0)
+                {
+                    if(teamMember.isUserAccepted()) {
+                        confirmButton.setVisibility(View.GONE);
+                    }
+                    else {
+                        confirmButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TeamMemberAdapter.this.parentFragment.acceptMember(teamMember.getUserId());
+
+                            }
+                        });
+                    }
+
+                    if(teamMember.getUserId().compareTo(project.getOwnerId()) == 0) {
+                        cancelButton.setVisibility(View.GONE);
+                    }
+                    else {
+                        cancelButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (teamMember.isUserAccepted())
+                                    TeamMemberAdapter.this.parentFragment.removeMember(teamMember.getUserId(), teamMember.getFirstName() + " " + teamMember.getLastName());
+                                else
+                                    TeamMemberAdapter.this.parentFragment.declinePendingRequest(teamMember.getUserId(), teamMember.getFirstName() + " " + teamMember.getLastName());
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    cancelButton.setVisibility(View.GONE);
                     confirmButton.setVisibility(View.GONE);
                 }
-                else {
-                    confirmButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            TeamMemberAdapter.this.parentFragment.acceptMember(teamMember.getUserId());
-
-                        }
-                    });
-                }
-
-                if(teamMember.getUserId().compareTo(project.getOwnerId()) == 0) {
+            }
+            else{
+                if (project.getStatus() == ProjectStatus.STARTED) {
+                    confirmButton.setVisibility(View.GONE);
                     cancelButton.setVisibility(View.GONE);
+                    reviewButton.setVisibility(View.GONE);
                 }
                 else {
-                    cancelButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (teamMember.isUserAccepted())
-                                TeamMemberAdapter.this.parentFragment.removeMember(teamMember.getUserId(), teamMember.getFirstName() + " " + teamMember.getLastName());
-                            else
-                                TeamMemberAdapter.this.parentFragment.declinePendingRequest(teamMember.getUserId(), teamMember.getFirstName() + " " + teamMember.getLastName());
-                        }
-                    });
+                    //ENDED
+                    confirmButton.setVisibility(View.GONE);
+                    cancelButton.setVisibility(View.GONE);
+                    if (project.getOwnerId().compareTo(Variables.user.getUserId()) == 0 && teamMember.getUserId().compareTo(project.getOwnerId()) != 0) {
+                        reviewButton.setVisibility(View.VISIBLE);
+                        reviewButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //open review activity/fragment
+                                Intent intent = new Intent(context, WriteReviewActivity.class);
+                                intent.putExtra("projectId", project.getDocumentId());
+                                intent.putExtra("projectTitle", project.getTitle());
+                                intent.putExtra("userId", teamMember.getUserId());
+                                intent.putExtra("userFullName", teamMember.getFirstName() + " " + teamMember.getLastName());
+                                context.startActivity(intent);
+                            }
+                        });
+                    }
+                    else {
+                        reviewButton.setVisibility(View.GONE);
+                    }
                 }
             }
-            else
-            {
-                cancelButton.setVisibility(View.GONE);
-                confirmButton.setVisibility(View.GONE);
-            }
+
         }
-
-
-
         return rootView;
     }
 }

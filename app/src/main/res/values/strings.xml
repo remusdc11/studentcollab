@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">StudentCollab</string>
 
-
     <!--MessageDialog-->
     <string name="message_dialog_ok">Ok</string>
     <string name="message_dialog_confirm">Yes</string>
@@ -49,12 +48,12 @@
 
     <!-- Add Activity -->
     <string name="add_title">Create project</string>
-    <string name="add_project_title_hint">Title</string>
-    <string name="add_project_description_hint">Description</string>
-    <string name="add_project_no_users_hint">Number of team members</string>
-    <string name="add_project_start_date_hint">Project start date</string>
-    <string name="add_project_end_date_hint">Project end date</string>
-    <string name="add_project_tags_hint">Tags</string>
+    <string name="add_project_title_hint">Title*</string>
+    <string name="add_project_description_hint">Description*</string>
+    <string name="add_project_no_users_hint">Number of team members*</string>
+    <string name="add_project_start_date_hint">Project start date*</string>
+    <string name="add_project_end_date_hint">Project end date*</string>
+    <string name="add_project_tags_hint">Tags*</string>
     <string name="add_select_start_date">Select project start date</string>
     <string name="add_select_end_date">Select project end date</string>
     <string name="add_end_date_error">The end date can\'t be earlier than the start date or the current date.</string>
@@ -93,11 +92,19 @@
     <!-- Fragment Profile -->
     <string name="fragment_profile_log_out">Log out</string>
     <string name="fragment_profile_projects_created">Created projects</string>
-    <string name="fragment_profile_projects_participated">Completed projects</string>
+    <string name="fragment_profile_projects_participated">Joined projects</string>
     <string name="fragment_profile_rating">Rating</string>
     <string name="fragment_profile_logout_confirmation">Are you sure you want to disconnect?</string>
 
 
+    <!-- Activity Write Review -->
+    <string name="review_title_new">Write a review</string>
+    <string name="review_title_edit">Edit your review</string>
+    <string name="review_label">Review %1$s\'s activity in your project called %2$s:</string>
+    <string name="review_title">Title*</string>
+    <string name="review_review">Review*</string>
+    <string name="review_rating_label">Rating*</string>
+    <string name="review_button_save">Save review</string>
 
 
 </resources>

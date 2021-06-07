@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -274,6 +275,18 @@ public class ProjectDetailsFragment extends Fragment {
         TeamMemberAdapter adapter = new TeamMemberAdapter(context, teamMembers, project, ProjectDetailsFragment.this);
 
         membersListView.setAdapter(adapter);
+
+        membersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ProfileFragment profileFragment = new ProfileFragment();
+                Bundle args = new Bundle();
+                args.putString("userId", teamMembers.get(position).getUserId());
+                profileFragment.setArguments(args);
+                Methods.addFragment(fragmentManager, profileFragment, Variables.FRAGMENT_PROFILE);
+            }
+        });
+
         Methods.getListViewSize(membersListView, context);
     }
 

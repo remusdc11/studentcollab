@@ -30,6 +30,7 @@ import com.studentcollab.Globals.Variables;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.Methods;
 import com.studentcollab.Models.University;
+import com.studentcollab.Models.User;
 import com.studentcollab.R;
 
 import java.util.List;
@@ -85,9 +86,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 if(documents.size() > 0)
                                 {
-                                    Variables.user.setDocumentId(documents.get(0).getId());
+                                    Variables.user = documents.get(0).toObject(User.class);
                                     if(documents.get(0).getBoolean("initialized") != true) {
-                                        Log.d("aaa", Variables.user.getDocumentId());
+                                        //Log.d("aaa", Variables.user.getDocumentId());
                                         Variables.user.setInitialized(false);
                                         Intent intent = new Intent(context, OnboardingActivity.class);
                                         startActivity(intent);
@@ -191,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                                         if(documents.size() > 0)
                                                         {
-                                                            Variables.user.setDocumentId(documents.get(0).getId());
+                                                            Variables.user = documents.get(0).toObject(User.class);
                                                             if(documents.get(0).getBoolean("initialized") != true) {
                                                                 Log.d("aaa", Variables.user.getDocumentId());
                                                                 Intent intent = new Intent(context, OnboardingActivity.class);

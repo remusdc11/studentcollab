@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.errorprone.annotations.Var;
 import com.google.firebase.auth.FirebaseAuth;
 import com.studentcollab.Fragments.FeedFragment;
 import com.studentcollab.Fragments.ProfileFragment;
@@ -55,6 +56,7 @@ public class FeedActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         loadingDialog = new LoadingDialog(FeedActivity.this);
 
+        bottomNavigation.getMenu().getItem(2).setTitle(Variables.user.getFirstName() + " " + Variables.user.getLastName());
 
         bottomNavigation.setSelectedItemId(R.id.navigation_menu_home);
 
@@ -86,7 +88,7 @@ public class FeedActivity extends AppCompatActivity {
                         Bundle args = new Bundle();
                         args.putString("projectId", Variables.user.getUserId());
                         selectedFragment.setArguments(args);
-                        selectedFragmentName = Variables.FRAGMENT_PROFILE;
+                        selectedFragmentName = Variables.FRAGMENT_PROFILE_OWN;
                         break;
                 }
 
@@ -111,7 +113,7 @@ public class FeedActivity extends AppCompatActivity {
                         break;
 
                     case R.id.navigation_menu_profile:
-                        fragmentManager.popBackStack(Variables.FRAGMENT_PROFILE, 0);
+                        fragmentManager.popBackStack(Variables.FRAGMENT_PROFILE_OWN, 0);
                         break;
                 }
             }
@@ -156,7 +158,7 @@ public class FeedActivity extends AppCompatActivity {
                     bottomNavigation.setSelectedItemId(R.id.navigation_menu_home);
                     break;
 
-                case Variables.FRAGMENT_PROFILE:
+                case Variables.FRAGMENT_PROFILE_OWN:
                     navigate = false;
                     bottomNavigation.setSelectedItemId(R.id.navigation_menu_profile);
                     break;

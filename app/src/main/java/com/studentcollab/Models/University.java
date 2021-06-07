@@ -6,6 +6,8 @@ public class University {
 
     private String name;
 
+    public University() {}
+
     public University(String documentId, String name) {
         this.documentId = documentId;
         this.name = name;
@@ -26,7 +28,4 @@ public class University {
     public void setName(String name) {
         this.name = name;
     }
-
-
-
 }

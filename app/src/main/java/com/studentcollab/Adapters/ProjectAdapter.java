@@ -149,8 +149,6 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
             detailsButton = itemView.findViewById(R.id.adapter_project_details);
 
             //projectIdTextView = itemView.findViewById(R.id.adapter_project_id);
-
-
         }
     }
 }

@@ -75,6 +75,7 @@
         android:layout_width="@dimen/toolbar_frame_height_width"
         android:layout_height="@dimen/toolbar_frame_height_width"
         android:background="?actionBarItemBackground"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -84,6 +85,23 @@
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:src="@drawable/cancel" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/adapter_team_member_review"
+        android:layout_width="@dimen/toolbar_frame_height_width"
+        android:layout_height="@dimen/toolbar_frame_height_width"
+        android:background="?actionBarItemBackground"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:src="@drawable/review" />
     </FrameLayout>
 
 
