@@ -103,8 +103,16 @@
     <string name="review_label">Review %1$s\'s activity in your project called %2$s:</string>
     <string name="review_title">Title*</string>
     <string name="review_review">Review*</string>
-    <string name="review_rating_label">Rating*</string>
+    <string name="review_rating_label">Rating:</string>
     <string name="review_button_save">Save review</string>
+    <string name="review_title_error">The title field is mandatory and must have at least 3 characters.</string>
+    <string name="review_review_error">The review field is mandatory and must have at least 10 characters.</string>
+    <string name="review_rating_error">The rating field is mandatory.</string>
+    <string name="review_save_successful">Review saved successfully.</string>
+    <string name="review_delete">Delete</string>
+    <string name="review_delete_confirmation">Are you sure you want to delete your review?</string>
+
+
 
 
 </resources>

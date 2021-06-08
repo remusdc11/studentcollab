@@ -15,6 +15,7 @@ public class MessageDialog {
     private TextView messageTextView;
     private View okButton;
     private String message;
+    private View.OnClickListener customDismissAction = null;
 
     public MessageDialog(Activity activity, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -31,10 +32,19 @@ public class MessageDialog {
         messageDialog.setCancelable(false);
     }
 
+    public void removeCustomDismissAction() {
+        this.customDismissAction = null;
+    }
+
     public void setMessage(String message) {
         this.message = message;
+        //this.customDismissAction = null;
         if(messageTextView != null)
             messageTextView.setText(this.message);
+    }
+
+    public void setCustomDismissAction(View.OnClickListener listener) {
+        this.customDismissAction = listener;
     }
 
     public void show() {
@@ -43,12 +53,17 @@ public class MessageDialog {
         okButton = messageDialog.findViewById(R.id.message_dialog_Button_ok);
 
         messageTextView.setText(this.message);
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        if (customDismissAction == null) {
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+        }
+        else {
+            okButton.setOnClickListener(customDismissAction);
+        }
     }
 
     public void dismiss() {

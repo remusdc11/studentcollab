@@ -7,10 +7,10 @@
     tools:context=".Activities.WriteReviewActivity">
 
     <include
-        android:id="@+id/toolbar_simple"
+        android:id="@+id/toolbar_review"
         android:layout_height="@dimen/toolbar_height"
         android:layout_width="match_parent"
-        layout="@layout/toolbar_simple"
+        layout="@layout/toolbar_review"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_simple"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_review"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
