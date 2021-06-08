@@ -23,8 +23,10 @@ import com.studentcollab.Globals.MessageDialog;
 import com.studentcollab.Globals.Methods;
 import com.studentcollab.Models.Project;
 import com.studentcollab.Models.Review;
+import com.studentcollab.Models.User;
 import com.studentcollab.R;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class WriteReviewActivity extends AppCompatActivity {
@@ -42,6 +44,7 @@ public class WriteReviewActivity extends AppCompatActivity {
     private String title, reviewText;
     private int rating;
     private boolean reviewExists = false;
+    private User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,15 +96,40 @@ public class WriteReviewActivity extends AppCompatActivity {
             }
         });
 
-        getReviewIfExists();
+        getData();
     }
 
-    private void getReviewIfExists() {
+    private int loadingCount;
+    private void getData () {
+        loadingCount = 0;
         loadingDialog.start();
+
+        db.collection("users").whereEqualTo("userId", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                loadingCount++;
+                if (loadingCount == 2)
+                    loadingDialog.dismiss();
+
+                if (task.isSuccessful()) {
+                    if (task.getResult() != null) {
+                        List<DocumentSnapshot> docs = task.getResult().getDocuments();
+
+                        if (docs.size() > 0) {
+                            user = docs.get(0).toObject(User.class);
+                        }
+                    }
+                }
+            }
+        });
+
         db.collection("reviews").whereEqualTo("userId", userId).whereEqualTo("projectId", projectId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                loadingDialog.dismiss();
+                loadingCount++;
+                if (loadingCount == 2)
+                    loadingDialog.dismiss();
+
                 if (task.isSuccessful()) {
                     if (task.getResult() != null) {
                         List<DocumentSnapshot> docs = task.getResult().getDocuments();
@@ -142,16 +170,26 @@ public class WriteReviewActivity extends AppCompatActivity {
     private void deleteReview() {
         Methods.hideSoftKeyboard(WriteReviewActivity.this);
         loadingDialog.start();
-        db.collection("reviews").document(documentId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+        user.setReviews(user.getReviews() - 1);
+        user.setScore(user.getScore() - review.getRating());
+
+        db.collection("users").document(user.getDocumentId()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                loadingDialog.dismiss();
+                db.collection("reviews").document(documentId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        loadingDialog.dismiss();
 
-                if (task.isSuccessful()) {
-                    WriteReviewActivity.this.finish();
-                }
+                        if (task.isSuccessful()) {
+                            WriteReviewActivity.this.finish();
+                        }
+                    }
+                });
             }
         });
+
+
     }
 
 
@@ -176,57 +214,70 @@ public class WriteReviewActivity extends AppCompatActivity {
     }
 
     private void saveReview() {
-
+        int oldRating = review.getRating();
         loadingDialog.start();
         review.setTitle(title);
         review.setReview(reviewText);
         review.setRating(rating);
+        review.setDate((new Timestamp(System.currentTimeMillis())).getTime());
 
         //Update if already exists
         if (reviewExists) {
-            db.collection("reviews").document(documentId).set(review).addOnCompleteListener(new OnCompleteListener<Void>() {
+            user.setScore(user.getScore() - oldRating + review.getRating());
+
+            db.collection("users").document(user.getDocumentId()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    loadingDialog.dismiss();
+                    db.collection("reviews").document(documentId).set(review).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            loadingDialog.dismiss();
 
-                    if (task.isSuccessful()) {
-                        messageDialog.setCustomDismissAction(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                messageDialog.dismiss();
-                                WriteReviewActivity.this.finish();
+                            if (task.isSuccessful()) {
+                                messageDialog.setCustomDismissAction(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        messageDialog.dismiss();
+                                        WriteReviewActivity.this.finish();
+                                    }
+                                });
+                                messageDialog.setMessage(getString(R.string.review_save_successful));
+                                messageDialog.show();
                             }
-                        });
-                        messageDialog.setMessage(getString(R.string.review_save_successful));
-                        messageDialog.show();
-                    }
+                        }
+                    });
                 }
             });
+
+
         }
         else {
-            db.collection("reviews").add(review).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            user.setScore(user.getScore() + review.getRating());
+            user.setReviews(user.getReviews() + 1);
+            db.collection("users").document(user.getDocumentId()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentReference> task) {
-                    loadingDialog.dismiss();
-                    if (task.isSuccessful()) {
+                public void onComplete(@NonNull Task<Void> task) {
+                    db.collection("reviews").add(review).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                            loadingDialog.dismiss();
+                            if (task.isSuccessful()) {
 
-                        messageDialog.setCustomDismissAction(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                messageDialog.dismiss();
-                                WriteReviewActivity.this.finish();
+                                messageDialog.setCustomDismissAction(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        messageDialog.dismiss();
+                                        WriteReviewActivity.this.finish();
+                                    }
+                                });
+                                messageDialog.setMessage(getString(R.string.review_save_successful));
+                                messageDialog.show();
                             }
-                        });
-                        messageDialog.setMessage(getString(R.string.review_save_successful));
-                        messageDialog.show();
-                    }
+                        }
+                    });
                 }
             });
+
         }
-
-
-
-
-
     }
 }

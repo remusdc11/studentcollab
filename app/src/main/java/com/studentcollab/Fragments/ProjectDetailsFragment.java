@@ -156,7 +156,7 @@ public class ProjectDetailsFragment extends Fragment {
     private void populateViews() {
         title.setText(project.getTitle());
         startDate.setText(context.getString(R.string.adapter_project_start_date, new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(project.getStartDate()))));
-        endDate.setText(context.getString(R.string.adapter_project_start_date, new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(project.getEndDate()))));
+        endDate.setText(context.getString(R.string.adapter_project_end_date, new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(project.getEndDate()))));
         status.setText(context.getString(R.string.fragment_project_status, project.getStatus().toString()));
         description.setText(project.getDescription());
         teamMembersNumber.setText(context.getString(R.string.fragment_project_team_members_number, project.getNumberOfCurrentUsers(), project.getNumberOfUsers()));

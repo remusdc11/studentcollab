@@ -8,6 +8,8 @@ public class User {
     private String firstName, lastName;
     private Long joinDate;
     private String universityDocumentId;
+    private int score;
+    private int reviews;
 
     private Boolean initialized;
 
@@ -44,6 +46,10 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     public Long getJoinDate() {
         return joinDate;
     }
@@ -75,4 +81,28 @@ public class User {
     public void setInitialized(Boolean initialized) {
         this.initialized = initialized;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(int reviews) {
+        this.reviews = reviews;
+    }
+
+    public float computeUserRating() {
+        if (reviews > 0)
+            return (float) (score / reviews);
+        else
+            return 0;
+    }
+
 }

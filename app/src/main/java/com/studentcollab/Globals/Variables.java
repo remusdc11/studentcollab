@@ -13,5 +13,6 @@ public class Variables {
     public static final  String FRAGMENT_PROFILE = "profile";
     public static final String FRAGMENT_SETTINGS = "settings";
     public static final String FRAGMENT_PROJECT = "project";
+    public static final String FRAMGMENT_REVIEWS = "reviews";
 
 }

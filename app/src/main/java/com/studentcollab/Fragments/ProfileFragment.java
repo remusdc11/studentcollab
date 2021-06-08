@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.errorprone.annotations.Var;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +35,7 @@ import com.studentcollab.Adapters.ProjectAdapter;
 import com.studentcollab.Globals.ConfirmationDialog;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.MessageDialog;
+import com.studentcollab.Globals.Methods;
 import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.Project;
 import com.studentcollab.Models.University;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class ProfileFragment extends Fragment {
@@ -84,8 +87,6 @@ public class ProfileFragment extends Fragment {
 
         context = getContext();
         activity = (AppCompatActivity) getActivity();
-        assert activity != null;
-        fragmentManager = activity.getSupportFragmentManager();
 
         loadingDialog = new LoadingDialog(activity);
         messageDialog = new MessageDialog(activity, "");
@@ -101,12 +102,14 @@ public class ProfileFragment extends Fragment {
         }
 
         loadProfile();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+        fragmentManager = getActivity().getSupportFragmentManager();
 
         View rootView =  inflater.inflate(R.layout.fragment_profile, container, false);
 
@@ -129,6 +132,18 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 activity.onBackPressed();
+            }
+        });
+
+        ratingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReviewsFragment reviewsFragment = new ReviewsFragment();
+                Bundle args = new Bundle();
+                args.putString("userId", userId);
+                args.putString("userFullName", user.getFullName());
+                reviewsFragment.setArguments(args);
+                Methods.addFragment(fragmentManager, reviewsFragment, Variables.FRAMGMENT_REVIEWS);
             }
         });
 
@@ -265,6 +280,7 @@ public class ProfileFragment extends Fragment {
 
     private void populateUserFields() {
         usernameTextView.setText(this.user.getFirstName() + " " + this.user.getLastName());
+        ratingTextView.setText(String.valueOf(this.user.computeUserRating()));
 
         db.collection("universities").
                 document(user.getUniversityDocumentId())

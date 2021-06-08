@@ -47,5 +47,9 @@
     <!-- Profile fragment -->
     <dimen name="fragment_profile_score">17sp</dimen>
 
+    <!-- Adapter review -->
+    <dimen name="review_title_text_size">19sp</dimen>
+    <dimen name="review_text_size">16sp</dimen>
+
 
 </resources>

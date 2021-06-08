@@ -19,7 +19,9 @@
         android:padding="10dp"
         android:textAlignment="center"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/adapter_project_details"
+        app:layout_constraintHorizontal_bias="0"/>
 
     <FrameLayout
         android:id="@+id/adapter_project_details"
@@ -94,10 +96,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/adapter_project_details"
         app:layout_constraintBottom_toBottomOf="@id/adapter_project_TextView_end_date"/>
-
-
-
-
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/adapter_project_chips"

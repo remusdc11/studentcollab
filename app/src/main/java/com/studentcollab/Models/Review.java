@@ -4,6 +4,7 @@ public class Review {
 
     private String projectId, userId, title, review;
     private int rating;
+    private long date;
 
     public Review(String projectId, String userId) {
         this.projectId = projectId;
@@ -58,6 +59,14 @@ public class Review {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
 }

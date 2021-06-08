@@ -7,70 +7,88 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.studentcollab.Adapters.ProjectAdapter;
+import com.studentcollab.Adapters.ReviewAdapter;
 import com.studentcollab.Globals.CustomRecyclerView;
 import com.studentcollab.Globals.CustomSwipeToRefresh;
-import com.studentcollab.Models.Project;
+import com.studentcollab.Globals.Variables;
+import com.studentcollab.Models.Review;
 import com.studentcollab.R;
 
-import java.util.ArrayList;
 
+public class ReviewsFragment extends Fragment {
 
-public class FeedFragment extends Fragment {
-
-    private CustomRecyclerView recyclerView;
+    private String userId, userFullName;
+    private RecyclerView recyclerView;
     private CustomSwipeToRefresh swipeToRefresh;
-    private ArrayList<Project> projects = new ArrayList<>();
     private Context context;
     private Activity activity;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference projectsRef = db.collection("projects");
-    private ProjectAdapter adapter;
+    private CollectionReference reviewsRef = db.collection("reviews");
+    private ReviewAdapter adapter;
     private FragmentManager fragmentManager;
+    private View backButton;
+    private TextView sectionLabel;
 
-    public FeedFragment() {
+    public ReviewsFragment() {
+        // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle args = getArguments();
+        assert args != null;
+        userId = args.getString("userId", Variables.user.getUserId());
+        userFullName = args.getString("userFullName", "");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_reviews, container, false);
         context = this.getContext();
         activity = this.getActivity();
-        recyclerView = rootView.findViewById(R.id.fragment_home_recycler);
-        swipeToRefresh = rootView.findViewById(R.id.fragment_home_swipe_refresh);
+
+        recyclerView = rootView.findViewById(R.id.fragment_reviews_recycler);
+        sectionLabel = rootView.findViewById(R.id.toolbar_simple_TextView_section);
+        backButton = rootView.findViewById(R.id.toolbar_simple_FrameLayout_back);
+
+        if (!userFullName.isEmpty())
+        sectionLabel.setText(getString(R.string.fragment_reviews_title, userFullName));
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.onBackPressed();
+            }
+        });
+
         fragmentManager = getParentFragmentManager();
 
         setUpRecyclerView();
-
 
         return rootView;
     }
 
     private void setUpRecyclerView() {
-        Query query = projectsRef.orderBy("startDate", Query.Direction.DESCENDING);
+        Query query = reviewsRef.whereEqualTo("userId", userId).orderBy("date", Query.Direction.DESCENDING);
 
-        FirestoreRecyclerOptions<Project> options = new FirestoreRecyclerOptions.Builder<Project>()
-                .setQuery(query, Project.class)
+        FirestoreRecyclerOptions<Review> options = new FirestoreRecyclerOptions.Builder<Review>()
+                .setQuery(query, Review.class)
                 .build();
 
-        adapter = new ProjectAdapter(options, context);
+        adapter = new ReviewAdapter(options, context);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
