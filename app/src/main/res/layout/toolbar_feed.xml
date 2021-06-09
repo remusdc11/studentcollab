@@ -11,9 +11,10 @@
         android:layout_width="@dimen/toolbar_frame_height_width"
         android:layout_height="@dimen/toolbar_frame_height_width"
         android:id="@+id/toolbar_feed_FrameLayout_logo"
-        android:background="?actionBarItemBackground"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp">
+        android:layout_marginStart="10dp"
+        android:clickable="false"
+        android:focusable="false">
 
         <ImageView
             android:layout_width="38dp"

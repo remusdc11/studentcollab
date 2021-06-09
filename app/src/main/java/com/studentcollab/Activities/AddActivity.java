@@ -251,7 +251,7 @@ public class AddActivity extends AppCompatActivity {
 
         chip.setText(tag);
         chip.setOnClickListener(chipOnClickListener);
-        chip.setChipBackgroundColor(AppCompatResources.getColorStateList(context, R.color.colorPrimary));
+        chip.setChipBackgroundColor(AppCompatResources.getColorStateList(context, R.color.colorAccent));
         chip.setTextColor(AppCompatResources.getColorStateList(context, R.color.text_light));
         chip.setCloseIconTint(AppCompatResources.getColorStateList(context, R.color.text_light));
         //chip.setCloseIcon(AppCompatResources.getDrawable(context, R.drawable.cancel_white));

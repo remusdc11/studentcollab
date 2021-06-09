@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/border"
+    android:backgroundTint="@color/card_background">
+
+    <TextView
+        android:id="@+id/adapter_review_TextView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/review_title_text_size"
+        android:textColor="@color/text_dark"
+        android:padding="10dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/adapter_review_rating_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/adapter_review_TextView_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <RatingBar
+            android:id="@+id/adapter_review_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/ratingBarStyleSmall"
+            app:layout_constraintTop_toBottomOf="@id/adapter_review_TextView_title"
+            android:layout_marginStart="10dp"
+            android:numStars="5"
+            android:stepSize="1"
+            android:isIndicator="true"
+            android:progressTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <TextView
+            android:id="@+id/adapter_review_TextView_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/text_hint_dark"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            app:layout_constraintStart_toEndOf="@id/adapter_review_rating"
+            app:layout_constraintTop_toTopOf="@id/adapter_review_rating" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/adapter_review_TextView_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/review_text_size"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingHorizontal="10dp"
+        android:textColor="@color/text_hint_dark"
+        android:textAlignment="textStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adapter_review_rating_layout"/>
+
+    <FrameLayout
+        android:id="@+id/adapter_review_view_project"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adapter_review_TextView_review"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="?actionBarItemBackground"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:backgroundTint="@color/colorAccent"
+            android:background="@drawable/border"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingVertical="3dp">
+
+            <TextView
+                android:text="@string/adapter_review_view_project"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/text_light" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/right_arrow"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

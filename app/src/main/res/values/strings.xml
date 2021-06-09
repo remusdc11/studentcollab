@@ -17,14 +17,12 @@
     <string name="login_activity_invalid_email">Invalid email address</string>
     <string name="login_activity_invalid_password">Invalid password</string>
 
-
     <!-- Sign Up Activity-->
     <string name="sign_up_activity_prompt_password_verification">Repeat your password</string>
     <string name="sign_up_activity_action_sign_up">Sign Up</string>
     <string name="sign_up_activity_password_verification_error">Passwords don\'t match</string>
     <string name="sign_up_activity_email_exists">This email address is already used by an account.</string>
     <string name="sign_up_activity_successful">Successfully created your account.</string>
-
 
     <!--Onboarding-->
     <string name="activity_onboarding_description">Welcome to StudentCollab! \n Please tell us more about yourself:</string>
@@ -33,13 +31,11 @@
     <string name="activity_onboarding_university_hint">University</string>
     <string name="activity_onboarding_invalid_data">Invalid data</string>
 
-
     <!-- Feed Activity-->
     <string name="feed_activity_welcome">Welcome</string>
     <string name="feed_navigation_add">Add</string>
     <string name="feed_navigation_home">Home</string>
     <string name="feed_navigation_profile">Profile</string>
-
 
     <!-- Settings Fragment -->
     <string name="settings_log_out">Log out</string>
@@ -114,6 +110,11 @@
 
     <!-- Fragment reviews -->
     <string name="fragment_reviews_title">%1$s\'s reviews</string>
+    <string name="adapter_review_view_project">View project</string>
+    <string name="adapter_review_date">on  %1$s</string>
+
+
+    <string name="fragment_search_hint">Search tags</string>
 
 
 </resources>

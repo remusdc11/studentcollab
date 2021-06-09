@@ -174,19 +174,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/border"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="@color/colorAccent"
                 android:textColor="@color/text_light"
                 android:text="@string/add_button_text"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Tooltip"
                 app:layout_constraintEnd_toEndOf="@id/add_input_layout_tags"
                 app:layout_constraintTop_toBottomOf="@+id/add_input_layout_tags"
-                app:layout_constraintBottom_toBottomOf="parent"
-                 />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

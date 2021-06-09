@@ -17,6 +17,7 @@
     <Button
         android:text="@string/message_dialog_cancel"
         android:id="@+id/message_dialog_Button_cancel"
+        android:backgroundTint="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -27,6 +28,7 @@
     <Button
         android:text="@string/message_dialog_confirm"
         android:id="@+id/message_dialog_Button_ok"
+        android:backgroundTint="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

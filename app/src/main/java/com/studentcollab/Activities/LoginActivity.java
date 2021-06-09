@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.studentcollab.Globals.Variables;
@@ -51,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         db = FirebaseFirestore.getInstance();
+
+        /*FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setCacheSizeBytes(1048576)
+                .build();
+        db.setFirestoreSettings(settings);*/
 
 
         final EditText usernameEditText = findViewById(R.id.username);

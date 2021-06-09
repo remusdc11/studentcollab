@@ -27,7 +27,7 @@ public class FeedActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private LoadingDialog loadingDialog;
-    private FragmentManager fragmentManager;
+    public static FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigation;
     private static View container;
     private boolean navigate = true;
@@ -118,8 +118,6 @@ public class FeedActivity extends AppCompatActivity {
                 }
             }
         });
-
-
 
         /*View logOut = findViewById(R.id.button_log_out);
 

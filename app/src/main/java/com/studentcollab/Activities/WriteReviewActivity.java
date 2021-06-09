@@ -58,7 +58,7 @@ public class WriteReviewActivity extends AppCompatActivity {
         userId = intent.getStringExtra("userId");
         userFullName = intent.getStringExtra("userFullName");
 
-        this.review = new Review(projectId, userId);
+        this.review = new Review(projectId, userId, projectTitle);
         loadingDialog = new LoadingDialog(WriteReviewActivity.this);
         messageDialog = new MessageDialog(WriteReviewActivity.this, getString(R.string.add_title_error));
 
@@ -188,10 +188,7 @@ public class WriteReviewActivity extends AppCompatActivity {
                 });
             }
         });
-
-
     }
-
 
     private String validateFields() {
         Methods.hideSoftKeyboard(WriteReviewActivity.this);

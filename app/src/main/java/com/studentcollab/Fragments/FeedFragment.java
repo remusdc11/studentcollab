@@ -2,6 +2,7 @@ package com.studentcollab.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,9 +17,12 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.studentcollab.Activities.SearchActivity;
 import com.studentcollab.Adapters.ProjectAdapter;
 import com.studentcollab.Globals.CustomRecyclerView;
 import com.studentcollab.Globals.CustomSwipeToRefresh;
+import com.studentcollab.Globals.Methods;
+import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.Project;
 import com.studentcollab.R;
 
@@ -36,6 +40,7 @@ public class FeedFragment extends Fragment {
     private CollectionReference projectsRef = db.collection("projects");
     private ProjectAdapter adapter;
     private FragmentManager fragmentManager;
+    private View searchButton;
 
     public FeedFragment() {
     }
@@ -44,18 +49,29 @@ public class FeedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
         context = this.getContext();
         activity = this.getActivity();
         recyclerView = rootView.findViewById(R.id.fragment_home_recycler);
         swipeToRefresh = rootView.findViewById(R.id.fragment_home_swipe_refresh);
+        searchButton = rootView.findViewById(R.id.toolbar_feed_FrameLayout_search);
         fragmentManager = getParentFragmentManager();
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, SearchActivity.class);
+                //intent.putExtra("fragmentManager", fragmentManager);
+                startActivity(intent);
+                /*SearchFragment searchFragment = new SearchFragment();
+                Methods.addFragment(fragmentManager, searchFragment, Variables.FRAGMENT_SEARCH);*/
+            }
+        });
 
         setUpRecyclerView();
 

@@ -10,6 +10,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
 -->
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:animationDuration">0</item>

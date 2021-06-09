@@ -60,7 +60,6 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
         itemView = inflater.inflate(R.layout.adapter_project, parent, false);
 
         return new ProjectsHolder(itemView);
-
     }
 
 
@@ -85,7 +84,7 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
 
                 chip.setText(tags.get(i));
                 //chip.setOnClickListener(chipOnClickListener);
-                chip.setChipBackgroundColor(AppCompatResources.getColorStateList(context, R.color.colorPrimary));
+                chip.setChipBackgroundColor(AppCompatResources.getColorStateList(context, R.color.colorAccent));
                 chip.setTextColor(AppCompatResources.getColorStateList(context, R.color.text_light));
                 //chip.setCloseIconTint(AppCompatResources.getColorStateList(context, R.color.text_light));
                 //chip.setCloseIcon(AppCompatResources.getDrawable(context, R.drawable.cancel_white));
@@ -99,7 +98,7 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
 
                 chip.setText("...");
                 //chip.setOnClickListener(chipOnClickListener);
-                chip.setChipBackgroundColor(AppCompatResources.getColorStateList(context, R.color.colorPrimary));
+                chip.setChipBackgroundColor(AppCompatResources.getColorStateList(context, R.color.colorAccent));
                 chip.setTextColor(AppCompatResources.getColorStateList(context, R.color.text_light));
                 //chip.setCloseIconTint(AppCompatResources.getColorStateList(context, R.color.text_light));
                 //chip.setCloseIcon(AppCompatResources.getDrawable(context, R.drawable.cancel_white));

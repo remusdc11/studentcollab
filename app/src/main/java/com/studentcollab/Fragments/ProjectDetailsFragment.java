@@ -129,7 +129,6 @@ public class ProjectDetailsFragment extends Fragment {
             }
         });
 
-
         //idTv.setText(projectId);
 
         return rootView;
@@ -168,7 +167,7 @@ public class ProjectDetailsFragment extends Fragment {
 
                 chip.setText(tags.get(i));
                 //chip.setOnClickListener(chipOnClickListener);
-                chip.setChipBackgroundColor(AppCompatResources.getColorStateList(context, R.color.colorPrimary));
+                chip.setChipBackgroundColor(AppCompatResources.getColorStateList(context, R.color.colorAccent));
                 chip.setTextColor(AppCompatResources.getColorStateList(context, R.color.text_light));
                 //chip.setCloseIconTint(AppCompatResources.getColorStateList(context, R.color.text_light));
                 //chip.setCloseIcon(AppCompatResources.getDrawable(context, R.drawable.cancel_white));

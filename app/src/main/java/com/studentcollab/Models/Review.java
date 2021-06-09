@@ -2,21 +2,28 @@ package com.studentcollab.Models;
 
 public class Review {
 
-    private String projectId, userId, title, review;
+    private String projectId;
+    private String userId;
+    private String title;
+    private String review;
+    private String projectTitle;
     private int rating;
     private long date;
 
-    public Review(String projectId, String userId) {
+    public Review(String projectId, String userId, String projectTitle) {
         this.projectId = projectId;
         this.userId = userId;
+        this.projectTitle = projectTitle;
     }
 
-    public Review(String projectId, String userId, String title, String review, int rating) {
+    public Review(String projectId, String userId, String title, String review, int rating, long date, String projectTitle) {
         this.projectId = projectId;
         this.userId = userId;
         this.title = title;
         this.review = review;
         this.rating = rating;
+        this.date = date;
+        this.projectTitle = projectTitle;
     }
 
     public Review() { }
@@ -67,6 +74,14 @@ public class Review {
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    public String getProjectTitle() {
+        return projectTitle;
+    }
+
+    public void setProjectTitle(String projectTitle) {
+        this.projectTitle = projectTitle;
     }
 
 }

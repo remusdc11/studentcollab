@@ -31,6 +31,14 @@ public class TagsCompleteAdapter extends ArrayAdapter<String> implements Filtera
         //this.db = FirebaseFirestore.getInstance();
     }
 
+    public ArrayList<String> getFilteredItems() {
+        return this.tags;
+    }
+
+    public ArrayList<String> getAllItems() {
+        return this.copy;
+    }
+
     @Override
     public int getCount() {
         return tags.size();

@@ -103,12 +103,13 @@
                 android:numStars="5"
                 android:stepSize="1"
                 android:layout_margin="20dp"
+                android:progressTint="@color/colorAccent"
                 app:layout_constraintTop_toBottomOf="@id/review_text_view_rating_label"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
-            <!--android:progressTint="@color/colorPrimary"
-            android:secondaryProgressTint="@color/colorPrimaryDark"
-            android:indeterminateTint="@color/colorPrimaryDark"-->
+<!--            android:secondaryProgressTint="@color/colorPrimaryDark"-->
+<!--            android:indeterminateTint="@color/colorPrimaryDark"-->
+
 
 
             <Button
@@ -116,8 +117,8 @@
                 android:layout_width="125dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:backgroundTint="@color/colorAccent"
                 android:background="@drawable/border"
-                android:backgroundTint="@color/colorPrimary"
                 android:textColor="@color/text_light"
                 android:text="@string/review_button_save"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Tooltip"
