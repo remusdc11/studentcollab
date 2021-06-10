@@ -57,7 +57,7 @@ public class ProfileFragment extends Fragment {
     private String userId;
     private University university;
     private View backButton, logoutButton, ratingButton;
-    private TextView usernameTextView, universityTextView, createdProjectsTextView, completedProjectsTextView, ratingTextView;
+    private TextView usernameTextView, universityTextView, createdProjectsTextView, completedProjectsTextView, ratingTextView, sectionTitle;
     private NestedScrollView scrollView;
     private RecyclerView projectsRecyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -114,6 +114,7 @@ public class ProfileFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_profile, container, false);
 
         backButton = rootView.findViewById(R.id.toolbar_profile_FrameLayout_back);
+        sectionTitle = rootView.findViewById(R.id.toolbar_profile_TextView_section);
         logoutButton = rootView.findViewById(R.id.toolbar_profile_button_logout);
         usernameTextView = rootView.findViewById(R.id.fragment_profile_TextView_username);
         universityTextView = rootView.findViewById(R.id.fragment_profile_TextView_university);
@@ -134,6 +135,8 @@ public class ProfileFragment extends Fragment {
                 activity.onBackPressed();
             }
         });
+
+        sectionTitle.setText(R.string.fragment_profile_section_title);
 
         ratingButton.setOnClickListener(new View.OnClickListener() {
             @Override

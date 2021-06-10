@@ -66,10 +66,9 @@ public class FeedFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, SearchActivity.class);
-                //intent.putExtra("fragmentManager", fragmentManager);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                /*SearchFragment searchFragment = new SearchFragment();
-                Methods.addFragment(fragmentManager, searchFragment, Variables.FRAGMENT_SEARCH);*/
+
             }
         });
 

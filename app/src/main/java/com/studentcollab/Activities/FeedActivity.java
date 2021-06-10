@@ -17,17 +17,20 @@ import com.google.errorprone.annotations.Var;
 import com.google.firebase.auth.FirebaseAuth;
 import com.studentcollab.Fragments.FeedFragment;
 import com.studentcollab.Fragments.ProfileFragment;
+import com.studentcollab.Fragments.SearchResultsFragment;
 import com.studentcollab.Fragments.SettingsFragment;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.Methods;
 import com.studentcollab.Globals.Variables;
 import com.studentcollab.R;
 
+import java.util.ArrayList;
+
 public class FeedActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private LoadingDialog loadingDialog;
-    public static FragmentManager fragmentManager;
+    public FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigation;
     private static View container;
     private boolean navigate = true;
@@ -134,6 +137,9 @@ public class FeedActivity extends AppCompatActivity {
             }
         });*/
 
+
+
+
     }
 
     @Override
@@ -169,6 +175,27 @@ public class FeedActivity extends AppCompatActivity {
 
         Thread.currentThread().interrupt();
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            if (intent.getBooleanExtra("fromSearch", false)) {
+                SearchResultsFragment searchResultsFragment = new SearchResultsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("tags", intent.getStringArrayListExtra("tags"));
+                searchResultsFragment.setArguments(bundle);
+                Methods.addFragment(fragmentManager, searchResultsFragment, Variables.FRAGMENT_SEARCH_RESULTS);
+            }
+        }
+    }
+
+   /* @Override
+    public void onResume(){
+        super.onResume();
+        Intent intent = getIntent();
+
+    }*/
 
     public static void showSnackBar(int resId) {
         Snackbar.make(container, resId, Snackbar.LENGTH_LONG).show();

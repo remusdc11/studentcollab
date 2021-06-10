@@ -9,12 +9,14 @@
         android:roundIcon="@drawable/sc_primary_lr"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.SearchActivity"></activity>
+        <activity android:name=".Activities.SearchActivity"
+            android:launchMode="singleTop"></activity>
         <activity android:name=".Activities.WriteReviewActivity" />
         <activity android:name=".Activities.AddActivity" />
         <activity android:name=".Activities.EmptyActivity" />
         <activity android:name=".Activities.OnboardingActivity" />
-        <activity android:name=".Activities.FeedActivity" />
+        <activity android:name=".Activities.FeedActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".Activities.SignUpActivity" />
         <activity
             android:name=".Activities.LoginActivity"

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,10 +25,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.MessageDialog;
+import com.studentcollab.Globals.Methods;
 import com.studentcollab.Globals.TagsCompleteAdapter;
 import com.studentcollab.R;
 
 import java.util.ArrayList;
+
+import static android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -50,7 +54,7 @@ public class SearchActivity extends AppCompatActivity {
 
         context = getApplicationContext();
         loadingDialog = new LoadingDialog(this);
-        messageDialog = new MessageDialog(this, getString(R.string.add_title_error));
+        messageDialog = new MessageDialog(this, getString(R.string.fragment_search_tags_error));
 
         backButton = findViewById(R.id.toolbar_search_FrameLayout_back);
         searchButton = findViewById(R.id.toolbar_search_FrameLayout_search);
@@ -70,6 +74,21 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // open search results fragment
+                if (chips.size() > 0) {
+                    ArrayList<String> tagsList = new ArrayList<>();
+                    for (Chip chip : chips) {
+                        tagsList.add(chip.getText().toString());
+                    }
+
+                    Intent intent = new Intent(context, FeedActivity.class);
+                    intent.putExtra("fromSearch", true);
+                    intent.putStringArrayListExtra("tags", tagsList);
+                    intent.addFlags(FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }
+                else {
+                    messageDialog.show();
+                }
             }
         });
 
@@ -156,4 +175,13 @@ public class SearchActivity extends AppCompatActivity {
             removeTag((Chip) v);
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        Methods.hideSoftKeyboard(this);
+        Intent intent = new Intent(this, FeedActivity.class);
+        intent.setFlags(FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+        finish();
+    }
 }

@@ -91,6 +91,7 @@
     <string name="fragment_profile_projects_participated">Joined projects</string>
     <string name="fragment_profile_rating">Rating</string>
     <string name="fragment_profile_logout_confirmation">Are you sure you want to disconnect?</string>
+    <string name="fragment_profile_section_title">User profile</string>
 
 
     <!-- Activity Write Review -->
@@ -115,6 +116,9 @@
 
 
     <string name="fragment_search_hint">Search tags</string>
+    <string name="fragment_search_tags_error">Please select at least one tag.</string>
+
+    <string name="fragment_search_results_section_title">Search results for tags:</string>
 
 
 </resources>
