@@ -1,6 +1,5 @@
 package com.studentcollab.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,11 +13,8 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.studentcollab.Activities.AddActivity;
 import com.studentcollab.Fragments.ProjectDetailsFragment;
 import com.studentcollab.Globals.Methods;
 import com.studentcollab.Globals.Variables;
@@ -29,28 +25,28 @@ import com.studentcollab.R;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
-public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAdapter.ProjectsHolder> {
-
-    //private ArrayList<Project> projects;
+public class ProjectAdapterBasic extends RecyclerView.Adapter<ProjectAdapterBasic.ProjectsHolder> {
+    private List<Project> projects;
     private View itemView;
-    //private ProjectsHolder holder;
     private Context context;
     private FragmentManager fragmentManager;
 
 
-    public ProjectAdapter(@NonNull FirestoreRecyclerOptions<Project> options, Context context) {
-        super(options);
+    public ProjectAdapterBasic(List<Project> projects, Context context) {
         this.context = context;
+        this.projects = projects;
         this.fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
     }
 
 
-//    public ProjectAdapter(Context context, ArrayList<Project> projects) {
+//    public ProjectAdapterAdvanced(Context context, ArrayList<Project> projects) {
 //        super();
 //        this.projects = projects;
 //    }
+
+
 
     @NonNull
     @Override
@@ -59,12 +55,13 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
 
         itemView = inflater.inflate(R.layout.adapter_project, parent, false);
 
-        return new ProjectsHolder(itemView);
+        return new ProjectAdapterBasic.ProjectsHolder(itemView);
     }
 
-
     @Override
-    protected void onBindViewHolder(@NonNull ProjectsHolder holder, int position, @NonNull final Project model) {
+    public void onBindViewHolder(@NonNull ProjectsHolder holder, int position) {
+
+        final Project model = projects.get(position);
 
         holder.title.setText(model.getTitle());
         holder.startDate.setText(context.getString(R.string.adapter_project_start_date, new SimpleDateFormat("dd.MM.yyyy").format(new Timestamp(model.getStartDate()))));
@@ -119,16 +116,13 @@ public class ProjectAdapter extends FirestoreRecyclerAdapter<Project, ProjectAda
                 Methods.addFragment(fragmentManager, projectDetailsFragment, Variables.FRAGMENT_PROJECT);
             }
         });
-
-        /*
-        final Project currentProject = projects.get(position);
-*/
-        //final  ProjectsHolder projectsHolder = ((ProjectsHolder) holder);
-
-        //int requiredMembers = model.getNumberOfUsers() - model.getTeamMembers().size();
-
-        //holder.projectIdTextView.setText(String.valueOf(model.getNumberOfRequiredUsers()));
     }
+
+    @Override
+    public int getItemCount() {
+        return projects.size();
+    }
+
 
     static class ProjectsHolder extends RecyclerView.ViewHolder {
 

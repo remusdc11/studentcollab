@@ -118,7 +118,7 @@
     <string name="fragment_search_hint">Search tags</string>
     <string name="fragment_search_tags_error">Please select at least one tag.</string>
 
-    <string name="fragment_search_results_section_title">Search results for tags:</string>
-
+    <string name="fragment_search_results_section_title">Search results</string>
+    <string name="fragment_search_results_no_results">No projects found</string>
 
 </resources>

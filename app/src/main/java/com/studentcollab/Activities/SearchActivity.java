@@ -42,10 +42,11 @@ public class SearchActivity extends AppCompatActivity {
     private ChipGroup chipGroup;
     private LoadingDialog loadingDialog;
     private MessageDialog messageDialog;
-    private View backButton, searchButton;
+    private View backButton, clearButton;
     private EditText searchEditText;
     private ListView listViewTags;
     private ArrayAdapter<String> tagsAdapter = null;
+    private View floatingSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +58,11 @@ public class SearchActivity extends AppCompatActivity {
         messageDialog = new MessageDialog(this, getString(R.string.fragment_search_tags_error));
 
         backButton = findViewById(R.id.toolbar_search_FrameLayout_back);
-        searchButton = findViewById(R.id.toolbar_search_FrameLayout_search);
+        clearButton = findViewById(R.id.toolbar_search_FrameLayout_clear);
         searchEditText = findViewById(R.id.fragment_search_EditText);
         chipGroup = findViewById(R.id.fragment_search_chip_group);
         listViewTags = findViewById(R.id.fragment_search_ListView_tags);
-
+        floatingSearchButton = findViewById(R.id.activity_search_floating_button);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +71,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        floatingSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // open search results fragment
@@ -107,6 +108,14 @@ public class SearchActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (tagsAdapter != null)
                     tagsAdapter.getFilter().filter(searchEditText.getText().toString());
+            }
+        });
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchEditText.setText("");
+                removeAllTags();
             }
         });
 
@@ -167,6 +176,15 @@ public class SearchActivity extends AppCompatActivity {
             //allTags.add(chip.getText().toString());
             tagsAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void removeAllTags() {
+        ArrayList<String> allItems = ((TagsCompleteAdapter) tagsAdapter).getAllItems();
+        for (Chip chip : chips)
+            allItems.add(chip.getText().toString());
+        chips.clear();
+        chipGroup.removeAllViews();
+        tagsAdapter.notifyDataSetChanged();
     }
 
     private View.OnClickListener chipOnClickListener = new View.OnClickListener() {

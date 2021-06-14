@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/toolbar_search_FrameLayout_back"
-            app:layout_constraintEnd_toStartOf="@id/toolbar_search_FrameLayout_search"
+            app:layout_constraintEnd_toStartOf="@id/toolbar_search_FrameLayout_clear"
             app:layout_constraintHorizontal_bias="0.3"
             android:background="@color/transparent"
             />
@@ -56,7 +56,7 @@
         <FrameLayout
             android:layout_width="@dimen/toolbar_frame_height_width"
             android:layout_height="@dimen/toolbar_frame_height_width"
-            android:id="@+id/toolbar_search_FrameLayout_search"
+            android:id="@+id/toolbar_search_FrameLayout_clear"
             android:background="?actionBarItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -64,7 +64,7 @@
             <ImageView
                 android:layout_width="@dimen/toolbar_ImageView_height_width"
                 android:layout_height="@dimen/toolbar_ImageView_height_width"
-                android:src="@drawable/search_white"
+                android:src="@drawable/clear_white"
                 android:layout_gravity="center" />
 
         </FrameLayout>

@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +19,15 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.errorprone.annotations.Var;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.model.Document;
 import com.studentcollab.Activities.LoginActivity;
-import com.studentcollab.Adapters.ProjectAdapter;
+import com.studentcollab.Adapters.ProjectAdapterAdvanced;
 import com.studentcollab.Globals.ConfirmationDialog;
 import com.studentcollab.Globals.LoadingDialog;
 import com.studentcollab.Globals.MessageDialog;
@@ -40,14 +36,10 @@ import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.Project;
 import com.studentcollab.Models.University;
 import com.studentcollab.Models.User;
-import com.studentcollab.Models.UserProjectDTO;
 import com.studentcollab.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 
 public class ProfileFragment extends Fragment {
@@ -72,7 +64,7 @@ public class ProfileFragment extends Fragment {
 
     private CollectionReference projectsRef = db.collection("projects");
 
-    private ProjectAdapter adapter;
+    private ProjectAdapterAdvanced adapter;
 
     private int readyToLoad = 0;
 
@@ -311,7 +303,7 @@ public class ProfileFragment extends Fragment {
                 .setQuery(query, Project.class)
                 .build();
 
-        adapter = new ProjectAdapter(options, context);
+        adapter = new ProjectAdapterAdvanced(options, context);
 
         projectsRecyclerView.setHasFixedSize(true);
         projectsRecyclerView.setLayoutManager(new LinearLayoutManager(context));

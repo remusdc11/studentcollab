@@ -18,11 +18,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.studentcollab.Activities.SearchActivity;
-import com.studentcollab.Adapters.ProjectAdapter;
+import com.studentcollab.Adapters.ProjectAdapterAdvanced;
 import com.studentcollab.Globals.CustomRecyclerView;
 import com.studentcollab.Globals.CustomSwipeToRefresh;
-import com.studentcollab.Globals.Methods;
-import com.studentcollab.Globals.Variables;
 import com.studentcollab.Models.Project;
 import com.studentcollab.R;
 
@@ -38,7 +36,7 @@ public class FeedFragment extends Fragment {
     private Activity activity;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference projectsRef = db.collection("projects");
-    private ProjectAdapter adapter;
+    private ProjectAdapterAdvanced adapter;
     private FragmentManager fragmentManager;
     private View searchButton;
 
@@ -85,7 +83,7 @@ public class FeedFragment extends Fragment {
                 .setQuery(query, Project.class)
                 .build();
 
-        adapter = new ProjectAdapter(options, context);
+        adapter = new ProjectAdapterAdvanced(options, context);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
