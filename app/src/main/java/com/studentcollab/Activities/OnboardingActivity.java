@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +40,7 @@ public class OnboardingActivity extends AppCompatActivity {
     private ArrayList<University> universitiesList = new ArrayList<University>();
     private Spinner universitySpinner;
     private ArrayAdapter spinnerAdapter;
+    private TextView sectionTitle;
 
     private University selectedUniversity = null;
     private boolean validFirstName = false;
@@ -59,12 +61,15 @@ public class OnboardingActivity extends AppCompatActivity {
         final View backButton = findViewById(R.id.toolbar_next_button_back);
         backButton.setVisibility(View.GONE);
         universitySpinner = findViewById(R.id.spinner_university);
+        sectionTitle = findViewById(R.id.toolbar_next_TextView_section);
         final Context context = this.getApplicationContext();
 
         //nextButton.setEnabled(false);
 
         final MessageDialog messageDialog = new MessageDialog(OnboardingActivity.this, getString(R.string.activity_onboarding_invalid_data));
         final LoadingDialog loadingDialog = new LoadingDialog(OnboardingActivity.this);
+
+        sectionTitle.setText(R.string.activity_onboarding_title);
 
 
          spinnerAdapter = new CustomArrayAdapter(context, universitiesList);

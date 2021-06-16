@@ -65,6 +65,7 @@ public class SplashActivity extends AppCompatActivity {
                                 if(documents.size() > 0)
                                 {
                                     Variables.user = documents.get(0).toObject(User.class);
+                                    Variables.user.setDocumentId(documents.get(0).getId());
                                     if(documents.get(0).getBoolean("initialized") != true) {
                                         //Log.d("aaa", Variables.user.getDocumentId());
                                         Variables.user.setInitialized(false);

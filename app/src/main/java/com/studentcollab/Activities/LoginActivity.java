@@ -192,13 +192,14 @@ public class LoginActivity extends AppCompatActivity {
 
                                                     if (task.isSuccessful()) {
                                                         List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                                                        Log.d("documents length", String.valueOf(documents.size()));
+                                                        //Log.d("documents length", String.valueOf(documents.size()));
 
                                                         if(documents.size() > 0)
                                                         {
                                                             Variables.user = documents.get(0).toObject(User.class);
+                                                            Variables.user.setDocumentId(documents.get(0).getId());
                                                             if(documents.get(0).getBoolean("initialized") != true) {
-                                                                Log.d("aaa", Variables.user.getDocumentId());
+                                                                //Log.d("aaa", Variables.user.getDocumentId());
                                                                 Intent intent = new Intent(context, OnboardingActivity.class);
                                                                 startActivity(intent);
                                                                 finish();
@@ -211,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                                         }
                                                     } else {
-                                                        Log.d("aaa", "Error getting documents: ", task.getException());
+                                                        //Log.d("aaa", "Error getting documents: ", task.getException());
                                                     }
                                                 }
                                             });

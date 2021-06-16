@@ -25,11 +25,12 @@
     <string name="sign_up_activity_successful">Successfully created your account.</string>
 
     <!--Onboarding-->
-    <string name="activity_onboarding_description">Welcome to StudentCollab! \n Please tell us more about yourself:</string>
+    <string name="activity_onboarding_description">Start using StudentCollab! \n Please tell us more about yourself:</string>
     <string name="activity_onboarding_first_name_hint">First name</string>
     <string name="activity_onboarding_last_name_hint">Last name</string>
     <string name="activity_onboarding_university_hint">University</string>
-    <string name="activity_onboarding_invalid_data">Invalid data</string>
+    <string name="activity_onboarding_invalid_data">Invalid name</string>
+    <string name="activity_onboarding_title">Welcome</string>
 
     <!-- Feed Activity-->
     <string name="feed_activity_welcome">Welcome</string>

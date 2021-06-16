@@ -163,7 +163,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                     final Map<String, Object> user = new HashMap<>();
                                     user.put("userId", firebaseUser.getUid());
-                                    user.put("email", firebaseUser.getEmail());
+                                    user.put("userEmail", firebaseUser.getEmail());
                                     user.put("initialized", false);
 
                                     db.collection("users").add(user)

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class FeedFragment extends Fragment {
 
     private CustomRecyclerView recyclerView;
-    private CustomSwipeToRefresh swipeToRefresh;
+    //private CustomSwipeToRefresh swipeToRefresh;
     private ArrayList<Project> projects = new ArrayList<>();
     private Context context;
     private Activity activity;
@@ -56,7 +56,7 @@ public class FeedFragment extends Fragment {
         context = this.getContext();
         activity = this.getActivity();
         recyclerView = rootView.findViewById(R.id.fragment_home_recycler);
-        swipeToRefresh = rootView.findViewById(R.id.fragment_home_swipe_refresh);
+        //swipeToRefresh = rootView.findViewById(R.id.fragment_home_swipe_refresh);
         searchButton = rootView.findViewById(R.id.toolbar_feed_FrameLayout_search);
         fragmentManager = getParentFragmentManager();
 

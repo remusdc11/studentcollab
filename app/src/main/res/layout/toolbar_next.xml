@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:id="@+id/toolbar_next_TextView_section"
         android:layout_toEndOf="@id/toolbar_next_button_back"
-        android:layout_marginStart="@dimen/toolbar_TextView_marginStart"
+        android:layout_marginStart="20dp"
         android:textColor="@color/toolbar_content"
         android:textSize="@dimen/toolbar_button_text"
         android:gravity="center_vertical" />
