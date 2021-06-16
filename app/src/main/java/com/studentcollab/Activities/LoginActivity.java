@@ -67,13 +67,11 @@ public class LoginActivity extends AppCompatActivity {
 
         rootLayout = findViewById(R.id.root_layout);
         loadingDialog = new LoadingDialog(LoginActivity.this);
-        mAuth = FirebaseAuth.getInstance();
 
+        mAuth = FirebaseAuth.getInstance();
+/*
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        //Only for testing reasons
-//        if(currentUser != null)
-//            mAuth.signOut();
-//        currentUser = mAuth.getCurrentUser();
+
 
         if(currentUser != null){
             Methods.setGlobalUser(currentUser);
@@ -115,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                     });
-        }
+        }*/
 
         usernameEditText.addTextChangedListener(new TextWatcher() {
             @Override

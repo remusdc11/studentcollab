@@ -2,12 +2,16 @@
 <resources>
     <color name="colorPrimary">#344955</color>
     <color name="colorPrimaryDark">#232F34</color>
+    <color name="colorAccent">#ffc107</color>
+
+<!--
     <color name="colorAccent">#F9AA33</color>
+-->
     <color name="transparent">#00FFFFFF</color>
     <color name="background">#ffffff</color>
     <color name="border_card_background">#6AC6C6C6</color>
     <color name="chip_group_background">#32FFFFFF</color>
-
+    <color name="login_background_tint">#BF232F34</color>
     <color name="divider_background">#393939</color>
 
     <!--Text-->
