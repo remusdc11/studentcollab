@@ -29,8 +29,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private ImageView logo;
     private Animation logoAnimation;
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +41,10 @@ public class SplashActivity extends AppCompatActivity {
 
         logo = findViewById(R.id.activity_splash_logo);
         logoAnimation = AnimationUtils.loadAnimation(context, R.anim.splash_animation);
+        //logoAnimation.setRepeatCount(Animation.INFINITE);
 
         logo.startAnimation(logoAnimation);
 
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
